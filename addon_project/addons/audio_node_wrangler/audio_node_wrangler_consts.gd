@@ -1,0 +1,5 @@
+class_name AudioNodeWranglerConsts
+extends Object
+
+const AUDIO_NODE_WRANGLER_TOGGLE_HUD_ACTION_NAME = "toggle_audio_node_wrangler_hud"
+

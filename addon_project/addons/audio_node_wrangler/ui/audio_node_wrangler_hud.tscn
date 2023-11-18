@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b32movj33xhlp"]
+
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_hud.gd" id="1_32jb0"]
+[ext_resource type="PackedScene" uid="uid://ddu0bfl8qw1s8" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_ui.tscn" id="2_gpym0"]
+
+[node name="SoundLevelMgrHud" type="CanvasLayer"]
+process_mode = 3
+layer = 128
+script = ExtResource("1_32jb0")
+
+[node name="SoundMgrUi" parent="." instance=ExtResource("2_gpym0")]
+
+[connection signal="closed_pressed" from="SoundMgrUi" to="." method="_on_sound_mgr_ui_closed_pressed"]
