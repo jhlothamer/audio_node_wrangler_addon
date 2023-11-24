@@ -243,6 +243,7 @@ func _undo_bus(item:TreeItem) -> void:
 	var bus_index = _get_bus_names().find(setting.settings.bus)
 	item.set_range(Lvl2Columns.BUS, bus_index)
 	_setup_bus_undo_button(item, setting)
+	AudioNodeWranglerMgr._apply_audio_setting_to_current_players(setting)
 
 
 func _undo_volume_db(item:TreeItem) -> void:
@@ -250,6 +251,7 @@ func _undo_volume_db(item:TreeItem) -> void:
 	setting.settings.volume_db = setting.original_settings.volume_db
 	item.set_range(Lvl2Columns.VOLUME_DB, setting.settings.volume_db)
 	_setup_volume_db_undo_button(item, setting)
+	AudioNodeWranglerMgr._apply_audio_setting_to_current_players(setting)
 
 
 var _prev_hover_item:TreeItem

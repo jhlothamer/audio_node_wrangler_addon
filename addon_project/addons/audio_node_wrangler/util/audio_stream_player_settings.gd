@@ -52,6 +52,24 @@ func read_from_dictionary(d:Dictionary) -> void:
 	_settings_as_loaded = settings.duplicate()
 
 
+static func get_id_for_audio_node(node: Node) -> String:
+	var temp := str(node.get_path())
+	var local_path = temp.replace(str(node.owner.get_path()), ".")
+	return "%s::%s" % [node.owner.scene_file_path, local_path]
+
+
+func read_from_node(n:Node) -> void:
+	id = get_id_for_audio_node(n)
+	var stream:AudioStream = n.stream
+	audio_stream_path = stream.resource_path
+	node_type = n.get_class()
+	settings = {}
+	for prop_key in AUDIO_PLAYER_DEF_PROP_VALUES.keys():
+		var value = n.get(prop_key)
+		settings[prop_key] = value
+	original_settings = settings.duplicate()
+
+
 func write_to_dictionary() -> Dictionary:
 	_settings_as_loaded = settings.duplicate()
 	return {

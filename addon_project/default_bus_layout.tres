@@ -1,0 +1,64 @@
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://bvtv3upnai3ox"]
+
+[sub_resource type="AudioEffectBandPassFilter" id="AudioEffectBandPassFilter_43sou"]
+resource_name = "BandPassFilter"
+
+[sub_resource type="AudioEffectChorus" id="AudioEffectChorus_vjw27"]
+resource_name = "Chorus"
+dry = 0.0
+wet = 0.98
+
+[sub_resource type="AudioEffectPhaser" id="AudioEffectPhaser_xmhqw"]
+resource_name = "Phaser"
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_px1pl"]
+resource_name = "Reverb"
+room_size = 0.59
+damping = 0.63
+spread = 0.14
+
+[resource]
+bus/1/name = &"Music"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/2/name = &"SoundFx"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"
+bus/3/name = &"OnHold"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("AudioEffectBandPassFilter_43sou")
+bus/3/effect/0/enabled = true
+bus/4/name = &"Distort"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"Master"
+bus/4/effect/0/effect = SubResource("AudioEffectChorus_vjw27")
+bus/4/effect/0/enabled = true
+bus/5/name = &"Phaser"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"Master"
+bus/5/effect/0/effect = SubResource("AudioEffectPhaser_xmhqw")
+bus/5/effect/0/enabled = true
+bus/6/name = &"Reverb"
+bus/6/solo = false
+bus/6/mute = false
+bus/6/bypass_fx = false
+bus/6/volume_db = 0.0
+bus/6/send = &"Master"
+bus/6/effect/0/effect = SubResource("AudioEffectReverb_px1pl")
+bus/6/effect/0/enabled = true

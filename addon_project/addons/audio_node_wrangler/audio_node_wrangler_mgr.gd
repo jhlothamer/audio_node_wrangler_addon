@@ -178,12 +178,6 @@ func _ensure_data_folder() -> void:
 		DirAccess.make_dir_recursive_absolute(data_folder)
 
 
-func _get_id_for_audio_node(node: Node) -> String:
-	var temp := str(node.get_path())
-	var local_path = temp.replace(str(node.owner.get_path()), ".")
-	return "%s::%s" % [node.owner.scene_file_path, local_path]
-
-
 func _process_audio_nodes_added_early() -> void:
 	for node in _audio_nodes_added_early:
 		_process_added_audio_node(node)
@@ -203,20 +197,25 @@ func _on_node_added(node: Node) -> void:
 
 
 func _process_added_audio_node(node:Node) -> void:
-	var id := _get_id_for_audio_node(node)
-	if _data.has(id):
-		var setting:AudioStreamPlayerSettings = _data[id]
-		setting.create_or_update_player(node)
-		if !_audio_node_instances.has(id):
-			_audio_node_instances[id] = []
-		_audio_node_instances[id].append(node)
-		node.tree_exited.connect(_on_audio_node_tre_exited.bind(node))
+	var id := AudioStreamPlayerSettings.get_id_for_audio_node(node)
+	var setting:AudioStreamPlayerSettings
+	if !_data.has(id):
+		setting = AudioStreamPlayerSettings.new()
+		setting.read_from_node(node)
+		_data[setting.id] = setting
+		print("soundDataMgr: audio node not listed in settings has been added: id = '%s'" % id)
 	else:
-		printerr("soundDataMgr: audio node added but no setting for it: id = '%s'" % id)
+		setting = _data[id]
+	
+	setting.create_or_update_player(node)
+	if !_audio_node_instances.has(id):
+		_audio_node_instances[id] = []
+	_audio_node_instances[id].append(node)
+	node.tree_exited.connect(_on_audio_node_tre_exited.bind(node))
 
 
 func _on_audio_node_tre_exited(node: Node) -> void:
-	var id := _get_id_for_audio_node(node)
+	var id := AudioStreamPlayerSettings.get_id_for_audio_node(node)
 	if _audio_node_instances.has(id):
 		_audio_node_instances[id].erase(node)
 
