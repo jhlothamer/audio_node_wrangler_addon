@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://cst2h4rdaxpni"]
+
+[ext_resource type="Script" path="res://demo/quiz_question.gd" id="1_14wwm"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="2_y180e"]
+[ext_resource type="Script" path="res://demo/audio_button.gd" id="3_iemlf"]
+[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_ax3ax"]
+[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ogl2t"]
+[ext_resource type="AudioStream" uid="uid://cl68f2c0ll8tj" path="res://demo/assets/sounds/575563__keerotic__cheers.ogg" id="6_5md5p"]
+[ext_resource type="AudioStream" uid="uid://cu7mea8ynh0p2" path="res://demo/assets/sounds/547589__whisperpotato__awwwww.mp3" id="7_3sk5p"]
+[ext_resource type="AudioStream" uid="uid://dbg5xeoitkrcl" path="res://demo/assets/sounds/538422__rosa-orenes256__referee-whistle-sound.ogg" id="8_qbk5m"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_g15yx"]
+
+[node name="QuizQuestion" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_14wwm")
+
+[node name="Background" parent="." instance=ExtResource("2_y180e")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="QuestionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Question"
+autowrap_mode = 2
+
+[node name="AnswersVBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AnswerCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/AnswersVBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+button_group = SubResource("ButtonGroup_g15yx")
+text = "Answer"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ContinueBtn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("hover_sound_node", "pressed_sound_node")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Continue"
+script = ExtResource("3_iemlf")
+hover_sound_node = NodePath("../../../../ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+title = "Whoa there!"
+initial_position = 1
+size = Vector2i(204, 100)
+dialog_text = "Please select an answer."
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ax3ax")
+
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ogl2t")
+
+[node name="CheersSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5md5p")
+
+[node name="AwwwSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3sk5p")
+
+[node name="NoAnswerSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_qbk5m")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]
+[connection signal="canceled" from="AcceptDialog" to="." method="_on_accept_dialog_canceled"]
+[connection signal="confirmed" from="AcceptDialog" to="." method="_on_accept_dialog_confirmed"]

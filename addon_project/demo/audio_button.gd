@@ -8,7 +8,6 @@ extends Button
 
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
-	pressed.connect(_on_pressed)
 
 
 func _on_mouse_entered() -> void:
@@ -52,5 +51,3 @@ func _matches_action_mode(mb_event:InputEventMouseButton) -> bool:
 		return true
 	return false
 
-func _on_pressed() -> void:
-	print("_on_pressed")

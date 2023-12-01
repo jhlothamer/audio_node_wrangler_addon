@@ -1,17 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0esggvnyo55o"]
+[gd_scene load_steps=6 format=3 uid="uid://b0esggvnyo55o"]
 
-[ext_resource type="AudioStream" uid="uid://d11hxbggrt2tb" path="res://demo/assets/music/331880__furbyguy__epistra.ogg" id="1_bfls3"]
+[ext_resource type="Script" path="res://demo/demo_title.gd" id="1_10rym"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="1_ufnl7"]
 [ext_resource type="Script" path="res://demo/audio_button.gd" id="2_1yqxy"]
 [ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="3_h6bvo"]
 [ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="4_mbmjs"]
-
-[sub_resource type="Gradient" id="Gradient_j6a31"]
-colors = PackedColorArray(0.0676226, 0.0866177, 0.19375, 1, 0.255501, 0.324393, 0.728125, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_q6i7n"]
-gradient = SubResource("Gradient_j6a31")
-fill_from = Vector2(0.697436, 1)
-fill_to = Vector2(0.413675, 0)
 
 [node name="DemoTitle" type="Control"]
 layout_mode = 3
@@ -20,15 +13,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_10rym")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" parent="." instance=ExtResource("1_ufnl7")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_q6i7n")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -48,12 +36,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 60
 text = "Audio Node Wrangler Demo"
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("1_bfls3")
-autoplay = true
-bus = &"Music"
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -105,3 +87,26 @@ stream = ExtResource("3_h6bvo")
 
 [node name="ButtonPressedSound" type="AudioStreamPlayer" parent="MarginContainer2/VBoxContainer"]
 stream = ExtResource("4_mbmjs")
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -484.0
+offset_right = 803.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="DemoDescriptionLabel" type="Label" parent="MarginContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 30
+text = "This demo is a simple quiz  game that contains sounds that you can manage with the Audio Node Wrangler.  Simply hit F1 to call up the Audio Node Wrangler Hud.  (Note that you cannot do so while a popup window is active.)  From the hud you can modify audio node volumes and change their bus.  Changes are saved when the hud is closed and will be reflected in the AudioNodeWrangler editor plugin."
+autowrap_mode = 2
+
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]

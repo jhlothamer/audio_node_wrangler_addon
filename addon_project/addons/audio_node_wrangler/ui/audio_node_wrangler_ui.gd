@@ -237,6 +237,15 @@ func _stop_audio(item:TreeItem) -> void:
 	audio_stream_player.stop()
 
 
+func _stop_all_audio() -> void:
+	var root = _tree.get_root()
+	for lvl1_node in root.get_children():
+		for lvl2_node in lvl1_node.get_children():
+			var audio_stream_player = lvl2_node.get_metadata(Lvl2Columns.PLAY)
+			if audio_stream_player:
+				audio_stream_player.stop()
+
+
 func _undo_bus(item:TreeItem) -> void:
 	var setting:AudioStreamPlayerSettings = item.get_metadata(0)
 	setting.settings.bus = setting.original_settings.bus
@@ -374,6 +383,7 @@ func _on_data_changed() -> void:
 
 
 func _on_close_btn_pressed() -> void:
+	_stop_all_audio()
 	AudioNodeWranglerMgr.save_data()
 	closed_pressed.emit()
 
@@ -449,10 +459,6 @@ func _on_show_data_file_btn_pressed() -> void:
 	AudioNodeWranglerMgr.show_data_file()
 
 
-func _about_to_hide() -> void:
-	AudioNodeWranglerMgr.save_data()
-
-
 func _on_accept_dialog_canceled() -> void:
 	_confirm_dismissed.emit(ConfirmationDlgResult.OK)
 
@@ -461,5 +467,5 @@ func _on_accept_dialog_confirmed() -> void:
 	_confirm_dismissed.emit(ConfirmationDlgResult.OK)
 
 
-func _on_accept_dialog_custom_action(action: StringName) -> void:
+func _on_accept_dialog_custom_action(_action: StringName) -> void:
 	_confirm_dismissed.emit(ConfirmationDlgResult.OK)

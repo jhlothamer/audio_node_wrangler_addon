@@ -10,7 +10,7 @@ const DATA_FILE_PATH = "user://audio_node_wrangler_data/audio_node_wrangler_data
 var _data := {}
 #used to quickly tell if data should be re-loaded
 var _data_file_mod_time := -1
-#map audio node id (scene_file_path::node_path) to instances of that audio node
+#map audio node id (scene_path::node_path) to instances of that audio node
 var _audio_node_instances := {}
 #audio nodes added before data is loaded add to this list - to be added to _audio_node_instances after data loaded
 var _audio_nodes_added_early := []
@@ -211,10 +211,10 @@ func _process_added_audio_node(node:Node) -> void:
 	if !_audio_node_instances.has(id):
 		_audio_node_instances[id] = []
 	_audio_node_instances[id].append(node)
-	node.tree_exited.connect(_on_audio_node_tre_exited.bind(node))
+	node.tree_exiting.connect(_on_audio_node_tree_exiting.bind(node))
 
 
-func _on_audio_node_tre_exited(node: Node) -> void:
+func _on_audio_node_tree_exiting(node: Node) -> void:
 	var id := AudioStreamPlayerSettings.get_id_for_audio_node(node)
 	if _audio_node_instances.has(id):
 		_audio_node_instances[id].erase(node)
@@ -253,16 +253,16 @@ func _collect_aud_settings_scene(full_file_path: String, data: Dictionary) -> vo
 		data[aud_setting.id] = aud_setting
 
 
-func _refresh_scene_file_aud_settings(scene_file_path: String) -> void:
+func _refresh_scene_file_aud_settings(scene_path: String) -> void:
 	var scene_settings:Array[AudioStreamPlayerSettings] = []
 	for setting in _data.values():
-		if setting.scene_path == scene_file_path:
+		if setting.scene_path == scene_path:
 			scene_settings.append(setting)
 		
 	for setting in scene_settings:
 		_data.erase(setting.id)
 	
-	_collect_aud_settings_scene(scene_file_path, _data)
+	_collect_aud_settings_scene(scene_path, _data)
 
 
 func _process_scene_file(path: String) -> Array[AudioStreamPlayerSettings]:

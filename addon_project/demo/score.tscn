@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbgugxo640pst"]
+
+[ext_resource type="Script" path="res://demo/score.gd" id="1_p0fso"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="2_c8xt8"]
+[ext_resource type="Script" path="res://demo/audio_button.gd" id="3_11pel"]
+[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_r0d10"]
+[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ptnd2"]
+
+[node name="score" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p0fso")
+
+[node name="Background" parent="." instance=ExtResource("2_c8xt8")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="QuestionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Score"
+
+[node name="ScoreRichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]
+You're score was 100/100.
+
+You get an A+.
+
+Which indicates that you are a genius.
+[/center]"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ContinueBtn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("hover_sound_node", "pressed_sound_node")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Continue"
+script = ExtResource("3_11pel")
+hover_sound_node = NodePath("../../../../ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_r0d10")
+
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ptnd2")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]

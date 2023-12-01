@@ -59,7 +59,7 @@ static func get_id_for_audio_node(node: Node) -> String:
 
 
 func read_from_node(n:Node) -> void:
-	id = get_id_for_audio_node(n)
+	id = AudioStreamPlayerSettings.get_id_for_audio_node(n)
 	var stream:AudioStream = n.stream
 	audio_stream_path = stream.resource_path
 	node_type = n.get_class()

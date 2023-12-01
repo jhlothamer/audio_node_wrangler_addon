@@ -22,6 +22,12 @@ settings/warn_of_uncommitted_git_changes=true
 [autoload]
 
 AudioNodeWranglerMgr="*res://addons/audio_node_wrangler/audio_node_wrangler_mgr.gd"
+QuestionMgr="*res://demo/question_mgr.gd"
+BackgroundMusicMgr="*res://demo/background_music_mgr.tscn"
+
+[debug]
+
+gdscript/warnings/exclude_addons=false
 
 [editor_plugins]
 
