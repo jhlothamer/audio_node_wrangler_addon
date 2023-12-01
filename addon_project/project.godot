@@ -29,6 +29,10 @@ BackgroundMusicMgr="*res://demo/background_music_mgr.tscn"
 
 gdscript/warnings/exclude_addons=false
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/audio_node_wrangler/plugin.cfg")
