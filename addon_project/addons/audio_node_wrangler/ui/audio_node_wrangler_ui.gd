@@ -9,6 +9,7 @@ const ICON_STOP = preload("res://addons/audio_node_wrangler/ui/Stop.svg")
 const ICON_UNDO = preload("res://addons/audio_node_wrangler/ui/UndoRedo.svg")
 const NO_NAG_ACTION = "no_nag"
 const SOUND_MGR_UI_DATA_PATH = "user://sound_manager_ui.json"
+const UI_PANEL_STYLEBOX = preload("res://addons/audio_node_wrangler/ui/ui_panel_stylebox.tres")
 
 
 enum ConfirmationDlgResult {
@@ -64,6 +65,7 @@ const LVL2_COL_TITLES = {
 @onready var _active_instances_chk:CheckBox = %ActiveInstancesChk
 @onready var _bus_filter:OptionButton = %BusFilterOptionBtn
 @onready var _title:Label = %AudioNodeWranglerLabel
+@onready var _panel:PanelContainer = $Panel
 
 #flag indicating if the ui scene is being edited or not
 var _is_active := false
@@ -84,6 +86,9 @@ func _ready() -> void:
 	_close_btn.visible = !running_in_editor
 	_active_instances_chk.visible = !running_in_editor
 	_title.visible = !running_in_editor
+	
+	if !running_in_editor:
+		_panel.set("theme_override_styles/panel", UI_PANEL_STYLEBOX)
 	
 	if OK != AudioNodeWranglerMgr.data_changed.connect(_on_data_changed):
 		printerr("SoundMgrUI: could not connect to AudioNodeWranglerMgr.data_changed")
@@ -469,3 +474,7 @@ func _on_accept_dialog_confirmed() -> void:
 
 func _on_accept_dialog_custom_action(_action: StringName) -> void:
 	_confirm_dismissed.emit(ConfirmationDlgResult.OK)
+
+
+func _about_to_hide() -> void:
+	AudioNodeWranglerMgr.save_data()
