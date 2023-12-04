@@ -1,7 +1,6 @@
 extends Control
 
 
-const SCENE_PATH_TITLE = "res://demo/demo_title.tscn"
 const SCORE_TEXT_TEMPLATE = "[center]You scored %d/%d.\n\nYou get %s %s\n\n%s[/center]"
 const SCORE_GRADES = [
 	[.9, "an", "A", "Which indicates extreme intelligence or luck."],
@@ -44,4 +43,4 @@ func _get_score_grades(percentage: float) -> Array:
 
 
 func _on_continue_btn_pressed() -> void:
-	get_tree().change_scene_to_file(SCENE_PATH_TITLE)
+	get_tree().change_scene_to_file(GameConsts.SCENE_PATH_TITLE)

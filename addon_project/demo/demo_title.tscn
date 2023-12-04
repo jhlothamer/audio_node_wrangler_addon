@@ -69,6 +69,19 @@ script = ExtResource("2_1yqxy")
 hover_sound_node = NodePath("../ButtonHoverSound")
 pressed_sound_node = NodePath("../ButtonPressedSound")
 
+[node name="CreditsBtn" type="Button" parent="MarginContainer2/VBoxContainer" node_paths=PackedStringArray("hover_sound_node", "pressed_sound_node")]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.964706, 1, 1)
+theme_override_colors/font_hover_color = Color(0.266667, 0.831373, 1, 1)
+theme_override_colors/font_focus_color = Color(0.266667, 0.831373, 1, 1)
+theme_override_font_sizes/font_size = 50
+text = "Credits"
+flat = true
+alignment = 0
+script = ExtResource("2_1yqxy")
+hover_sound_node = NodePath("../ButtonHoverSound")
+pressed_sound_node = NodePath("../ButtonPressedSound")
+
 [node name="ExitBtn" type="Button" parent="MarginContainer2/VBoxContainer" node_paths=PackedStringArray("hover_sound_node", "pressed_sound_node")]
 layout_mode = 2
 theme_override_colors/font_pressed_color = Color(0.647059, 0.964706, 1, 1)
@@ -109,4 +122,5 @@ text = "This demo is a simple quiz  game that contains sounds that you can manag
 autowrap_mode = 2
 
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/CreditsBtn" to="." method="_on_credits_btn_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]

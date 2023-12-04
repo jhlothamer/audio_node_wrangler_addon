@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=3 uid="uid://puyicoandsdv"]
+
+[ext_resource type="Script" path="res://demo/credits.gd" id="1_d3hvs"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="1_xtwno"]
+[ext_resource type="Script" path="res://demo/audio_button.gd" id="2_3mabw"]
+[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="3_c64lq"]
+[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="4_2k5yd"]
+
+[node name="credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d3hvs")
+
+[node name="Background" parent="." instance=ExtResource("1_xtwno")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CreditsLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Credits"
+
+[node name="CreditsRichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "This Godot addon demo uses these sounds from freesound:
+\"quiz game music loop BPM 90.wav\" by portwain ( http://freesound.org/s/331880/ ) licensed under CC0
+\"btn_hover_3.wav\" by rayolf ( http://freesound.org/s/405158/ ) licensed under CC0
+\"Button_Click\" by TheWilliamSounds ( http://freesound.org/s/686557/ ) licensed under CC0
+\"Cheers\" by keerotic ( http://freesound.org/s/575563/ ) licensed under CC0
+\"awwwww.mp3\" by WhisperPotato ( http://freesound.org/s/547589/ ) licensed under CC0
+\"Referee whistle sound.wav\" by Rosa-Orenes256 ( http://freesound.org/s/538422/ ) licensed under CC0
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="BackBtn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("hover_sound_node", "pressed_sound_node")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Back"
+flat = true
+script = ExtResource("2_3mabw")
+hover_sound_node = NodePath("../../../../ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_c64lq")
+
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2k5yd")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]

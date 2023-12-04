@@ -59,6 +59,7 @@ alignment = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Continue"
+flat = true
 script = ExtResource("3_11pel")
 hover_sound_node = NodePath("../../../../ButtonHoverSound")
 pressed_sound_node = NodePath("../../../../ButtonPressedSound")

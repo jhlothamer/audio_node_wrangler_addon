@@ -2,8 +2,6 @@ extends Control
 
 signal dialog_dismissed()
 
-const SCENE_PATH_QUESTION = "res://demo/quiz_question.tscn"
-const SCENE_PATH_SCORE = "res://demo/score.tscn"
 
 const CORRECT_ANSWER_TITLES := [
 	"Good job!",
@@ -97,9 +95,9 @@ func _on_continue_btn_pressed() -> void:
 	_button_pressed_sound.play()
 	await _button_pressed_sound.finished
 	if !QuestionMgr.is_last_question(_question):
-		get_tree().change_scene_to_file(SCENE_PATH_QUESTION)
+		get_tree().change_scene_to_file(GameConsts.SCENE_PATH_QUESTION)
 	else:
-		get_tree().change_scene_to_file(SCENE_PATH_SCORE)
+		get_tree().change_scene_to_file(GameConsts.SCENE_PATH_SCORE)
 
 
 func _on_accept_dialog_canceled() -> void:
