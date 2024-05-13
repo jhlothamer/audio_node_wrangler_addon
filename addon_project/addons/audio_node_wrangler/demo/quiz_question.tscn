@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://cst2h4rdaxpni"]
 
-[ext_resource type="Script" path="res://demo/quiz_question.gd" id="1_14wwm"]
-[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="2_y180e"]
-[ext_resource type="Script" path="res://demo/audio_button.gd" id="3_iemlf"]
-[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_ax3ax"]
-[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ogl2t"]
-[ext_resource type="AudioStream" uid="uid://cl68f2c0ll8tj" path="res://demo/assets/sounds/575563__keerotic__cheers.ogg" id="6_5md5p"]
-[ext_resource type="AudioStream" uid="uid://cu7mea8ynh0p2" path="res://demo/assets/sounds/547589__whisperpotato__awwwww.mp3" id="7_3sk5p"]
-[ext_resource type="AudioStream" uid="uid://dbg5xeoitkrcl" path="res://demo/assets/sounds/538422__rosa-orenes256__referee-whistle-sound.ogg" id="8_qbk5m"]
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/demo/quiz_question.gd" id="1_14wwm"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://addons/audio_node_wrangler/demo/background.tscn" id="2_y180e"]
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/demo/audio_button.gd" id="3_iemlf"]
+[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://addons/audio_node_wrangler/demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_ax3ax"]
+[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://addons/audio_node_wrangler/demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ogl2t"]
+[ext_resource type="AudioStream" uid="uid://cl68f2c0ll8tj" path="res://addons/audio_node_wrangler/demo/assets/sounds/575563__keerotic__cheers.ogg" id="6_5md5p"]
+[ext_resource type="AudioStream" uid="uid://cu7mea8ynh0p2" path="res://addons/audio_node_wrangler/demo/assets/sounds/547589__whisperpotato__awwwww.mp3" id="7_3sk5p"]
+[ext_resource type="AudioStream" uid="uid://dbg5xeoitkrcl" path="res://addons/audio_node_wrangler/demo/assets/sounds/538422__rosa-orenes256__referee-whistle-sound.ogg" id="8_qbk5m"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_g15yx"]
 

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Audio Node Wrangler Addon"
-run/main_scene="res://demo/demo_title.tscn"
+run/main_scene="res://addons/audio_node_wrangler/demo/demo_title.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,8 +22,8 @@ settings/warn_of_uncommitted_git_changes=true
 [autoload]
 
 AudioNodeWranglerMgr="*res://addons/audio_node_wrangler/audio_node_wrangler_mgr.gd"
-QuestionMgr="*res://demo/question_mgr.gd"
-BackgroundMusicMgr="*res://demo/background_music_mgr.tscn"
+QuestionMgr="*res://addons/audio_node_wrangler/demo/question_mgr.gd"
+BackgroundMusicMgr="*res://addons/audio_node_wrangler/demo/background_music_mgr.tscn"
 
 [debug]
 

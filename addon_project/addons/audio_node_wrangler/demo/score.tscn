@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://cbgugxo640pst"]
 
-[ext_resource type="Script" path="res://demo/score.gd" id="1_p0fso"]
-[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://demo/background.tscn" id="2_c8xt8"]
-[ext_resource type="Script" path="res://demo/audio_button.gd" id="3_11pel"]
-[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_r0d10"]
-[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ptnd2"]
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/demo/score.gd" id="1_p0fso"]
+[ext_resource type="PackedScene" uid="uid://v0iv0pco2ed2" path="res://addons/audio_node_wrangler/demo/background.tscn" id="2_c8xt8"]
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/demo/audio_button.gd" id="3_11pel"]
+[ext_resource type="AudioStream" uid="uid://0pjeb3535cct" path="res://addons/audio_node_wrangler/demo/assets/sounds/405158__rayolf__btn_hover_3.wav" id="4_r0d10"]
+[ext_resource type="AudioStream" uid="uid://dciyi00rp2x4g" path="res://addons/audio_node_wrangler/demo/assets/sounds/686557__thewilliamsounds__button_click.mp3" id="5_ptnd2"]
 
 [node name="score" type="Control"]
 layout_mode = 3
