@@ -22,6 +22,7 @@ func _ready() -> void:
 
 func _add_ui() -> void:
 	_ui = UI_SCENE.instantiate()
+	_ui.editor_interface = get_editor_interface()
 	get_editor_interface().get_editor_main_screen().add_child(_ui)
 	_make_visible(false)
 

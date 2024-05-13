@@ -37,9 +37,6 @@ enum Lvl2Columns {
 }
 
 const LVL2_COL_TITLES = {
-	#Lvl2Columns.ID: "",
-	#Lvl2Columns.PLAY: "",
-	#Lvl2Columns.STOP: "",
 	Lvl2Columns.BUS: "Bus",
 	Lvl2Columns.BUS_ORIG: "",
 	Lvl2Columns.VOLUME_DB: "Volume Db",
@@ -66,6 +63,11 @@ const LVL2_COL_TITLES = {
 @onready var _bus_filter:OptionButton = %BusFilterOptionBtn
 @onready var _title:Label = %AudioNodeWranglerLabel
 @onready var _panel:PanelContainer = $Panel
+@onready var _run_demo_btn:Button = %RunDemoBtn
+
+
+var editor_interface:EditorInterface
+
 
 #flag indicating if the ui scene is being edited or not
 var _is_active := false
@@ -86,6 +88,7 @@ func _ready() -> void:
 	_close_btn.visible = !running_in_editor
 	_active_instances_chk.visible = !running_in_editor
 	_title.visible = !running_in_editor
+	_run_demo_btn.visible = running_in_editor
 	
 	if !running_in_editor:
 		_panel.set("theme_override_styles/panel", UI_PANEL_STYLEBOX)
@@ -478,3 +481,10 @@ func _on_accept_dialog_custom_action(_action: StringName) -> void:
 
 func _about_to_hide() -> void:
 	AudioNodeWranglerMgr.save_data()
+
+
+func _on_run_demo_btn_pressed() -> void:
+	if !editor_interface:
+		printerr("AudioNodeWranglerUI: no editor interface - cannot run demo")
+		return
+	editor_interface.play_custom_scene(GameConsts.SCENE_PATH_TITLE)
