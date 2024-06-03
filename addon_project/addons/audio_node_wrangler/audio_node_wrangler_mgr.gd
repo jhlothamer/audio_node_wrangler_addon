@@ -44,7 +44,8 @@ func scan_project(reset: bool = false) -> void:
 	# keep existing data
 	for id in refreshed_data.keys():
 		if _data.has(id):
-			refreshed_data[id] = _data[id]
+			# keep any settings the user has changed
+			refreshed_data[id].settings = _data[id].settings
 	_data = refreshed_data
 	save_data()
 	data_changed.emit()
@@ -52,13 +53,6 @@ func scan_project(reset: bool = false) -> void:
 
 func save_data() -> void:
 	_ensure_data_folder()
-	var needs_saved := false
-	for settings in _data.values():
-		if settings.needs_saved():
-			needs_saved = true
-			break
-	if !needs_saved:
-		return
 
 	var data := {}
 	for id in _data.keys():
@@ -158,6 +152,8 @@ func apply_settings() -> String:
 		if !updater.update_scene_file(path, _get_updater_dictionary(settings_with_diffs)):
 			return "Error updating scene '%s': %s" % [path, updater.error_message]
 		_refresh_scene_file_aud_settings(path)
+	
+	scan_project()
 
 	return "Changes have been applied"
 

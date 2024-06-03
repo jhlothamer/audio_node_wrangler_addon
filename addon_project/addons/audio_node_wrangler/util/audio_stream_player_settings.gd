@@ -114,15 +114,6 @@ func create_or_update_player(audio_stream_player):
 	return audio_stream_player
 
 
-func needs_saved() -> bool:
-	for setting in settings.keys():
-		if !_settings_as_loaded.has(setting):
-			return true
-		if settings[setting] != _settings_as_loaded[setting]:
-			return true
-	return false
-
-
 func needs_update_applied() -> bool:
 	for setting in settings.keys():
 		if !original_settings.has(setting):
