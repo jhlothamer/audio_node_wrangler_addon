@@ -15,11 +15,24 @@ var _audio_node_instances := {}
 #audio nodes added before data is loaded add to this list - to be added to _audio_node_instances after data loaded
 var _audio_nodes_added_early := []
 var _editor:EditorInterface
+var _cached_bus_names := []
 
 
 func _enter_tree() -> void:
-	if !Engine.is_editor_hint() and OS.has_feature("debug"):
+	var running_in_editor := Engine.is_editor_hint()
+	if !running_in_editor and OS.has_feature("debug"):
 		get_tree().node_added.connect(_on_node_added)
+
+	if !running_in_editor:
+		return
+
+	# bus_renamed available in Godot 4.2
+	if AudioServer.has_signal("bus_renamed"):
+		if OK != AudioServer.connect("bus_renamed", _on_bus_layout_changed):
+			printerr("AudioNodeWranglerMgr: could not connect to AudioServer.bus_renamed")
+	if OK != AudioServer.bus_layout_changed.connect(_on_bus_layout_changed):
+		printerr("AudioNodeWranglerMgr: could not connect to AudioServer.bus_layout_changed")
+	_cached_bus_names = _get_bus_names()
 
 
 func _ready() -> void:
@@ -34,6 +47,19 @@ func _ready() -> void:
 	add_child(file_monitor)
 	if OK != file_monitor.file_modified.connect(_on_data_file_modified):
 		printerr("AudioNodeWranglerMgr: could not connect to file monitor signal")
+
+
+func _get_bus_names() -> Array[String]:
+	var busses:Array[String] = []
+	
+	for i in AudioServer.bus_count:
+		var bus := AudioServer.get_bus_name(i)
+		busses.append(bus)
+	
+	busses.sort()
+	
+	return busses
+
 
 
 func scan_project(reset: bool = false) -> void:
@@ -62,7 +88,7 @@ func save_data() -> void:
 	var json_string = JSON.stringify(data, "\t")
 	var f = FileAccess.open(DATA_FILE_PATH, FileAccess.WRITE)
 	if !f:
-		printerr("SoundDataMgr: could not open sound data file %s" % DATA_FILE_PATH)
+		printerr("AudioNodeWranglerMgr: could not open sound data file %s" % DATA_FILE_PATH)
 		return
 	f.store_string(json_string)
 	f.close()
@@ -77,12 +103,12 @@ func load_data() -> void:
 		return
 	var f = FileAccess.open(DATA_FILE_PATH, FileAccess.READ_WRITE)
 	if !f:
-		printerr("SoundDataMgr: could not open sound data file %s" % DATA_FILE_PATH)
+		printerr("AudioNodeWranglerMgr: could not open sound data file %s" % DATA_FILE_PATH)
 		return
 	var json_string = f.get_as_text()
 	var json = JSON.new()
 	if OK != json.parse(json_string):
-		printerr("SoundDataMgr: error loading sound data: %s (line %s)" % [json.get_error_message(), json.get_error_line()])
+		printerr("AudioNodeWranglerMgr: error loading sound data: %s (line %s)" % [json.get_error_message(), json.get_error_line()])
 		return
 	
 	var saved_data:Dictionary = json.data
@@ -199,7 +225,7 @@ func _process_added_audio_node(node:Node) -> void:
 		setting = AudioStreamPlayerSettings.new()
 		setting.read_from_node(node)
 		_data[setting.id] = setting
-		print("soundDataMgr: audio node not listed in settings has been added: id = '%s'" % id)
+		print("AudioNodeWranglerMgr: audio node not listed in settings has been added: id = '%s'" % id)
 	else:
 		setting = _data[id]
 	
@@ -347,3 +373,53 @@ func _get_modified_files() -> Array:
 		mod_files.append( "res://%s" % parts[1].strip_edges())
 	
 	return mod_files
+
+
+func _array_missing(a:Array, b:Array) -> String:
+	for a_element in a:
+		if !b.has(a_element):
+			return a_element
+	return ""
+
+
+func _on_bus_layout_changed() -> void:
+	print("AudioNodeWranglerMgr: bus layout changed")
+	var current_bus_names := _get_bus_names()
+
+	var old_name := _array_missing(_cached_bus_names, current_bus_names)
+	var new_name := _array_missing(current_bus_names, _cached_bus_names)
+	
+	_cached_bus_names = current_bus_names
+
+	if old_name.is_empty() and new_name.is_empty():
+		# no changes for bus names
+		return
+	
+	if old_name.is_empty() and !new_name.is_empty():
+		# bus added - nothing to do - shouldn't be in data yet
+		return
+
+	if !old_name.is_empty() and new_name.is_empty():
+		# bus was removed
+		_on_bus_renamed(-1, old_name, &"")
+		return
+
+	if !old_name.is_empty() and !new_name.is_empty():
+		# bus was renamed
+		_on_bus_renamed(-1, old_name, new_name)
+		return
+
+
+func _on_bus_renamed(_bus_index: int, old_name: StringName, new_name:StringName) -> void:
+	var updated := false
+	for key in _data.keys():
+		var settings:AudioStreamPlayerSettings = _data[key]
+		if settings.original_settings.bus == old_name:
+			settings.original_settings.bus = new_name if !new_name.is_empty() else &"Master"
+			updated = true
+		if settings.settings.bus == old_name:
+			settings.settings.bus = new_name if !new_name.is_empty() else settings.original_settings.bus
+			updated = true
+	if updated:
+		save_data()
+		data_changed.emit()

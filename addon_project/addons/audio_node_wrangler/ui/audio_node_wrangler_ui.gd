@@ -4,6 +4,7 @@ extends Control
 signal closed_pressed()
 signal _confirm_dismissed(result)
 
+
 const ICON_PLAY = preload("res://addons/audio_node_wrangler/ui/Play.svg")
 const ICON_STOP = preload("res://addons/audio_node_wrangler/ui/Stop.svg")
 const ICON_UNDO = preload("res://addons/audio_node_wrangler/ui/UndoRedo.svg")
@@ -94,9 +95,17 @@ func _ready() -> void:
 		_panel.set("theme_override_styles/panel", UI_PANEL_STYLEBOX)
 	
 	if OK != AudioNodeWranglerMgr.data_changed.connect(_on_data_changed):
-		printerr("SoundMgrUI: could not connect to AudioNodeWranglerMgr.data_changed")
+		printerr("AudioNodeWranglerUI: could not connect to AudioNodeWranglerMgr.data_changed")
 	call_deferred("_refresh_list", true)
 	_confirm_ok_no_nag_btn = _confirm_dlg.add_button("OK (don't show again)", true, NO_NAG_ACTION)
+	
+	if running_in_editor:
+		if OK != AudioServer.bus_layout_changed.connect(_on_bus_layout_changed):
+			printerr("AudioNodeWranglerUI: could not connect to AudioServer.bus_layout_changed")
+		# bus_renamed available in Godot 4.2
+		if AudioServer.has_signal("bus_renamed"):
+			if OK != AudioServer.connect("bus_renamed", _on_bus_layout_changed):
+				printerr("AudioNodeWranglerUI: could not connect to AudioServer.bus_renamed")
 
 
 func _get_data_by_resource() -> Dictionary:
@@ -488,3 +497,26 @@ func _on_run_demo_btn_pressed() -> void:
 		printerr("AudioNodeWranglerUI: no editor interface - cannot run demo")
 		return
 	editor_interface.play_custom_scene(GameConsts.SCENE_PATH_TITLE)
+
+
+func _on_bus_layout_changed() -> void:
+	var bus_names := _get_bus_names()
+	_refresh_bus_filter(bus_names)
+	var bus_names_str := ",".join(bus_names)
+	
+	var root := _tree.get_root()
+	for lvl1_node in root.get_children():
+		for lvl2_node in lvl1_node.get_children():
+			var setting:AudioStreamPlayerSettings = lvl2_node.get_metadata(Lvl2Columns.ID)
+			lvl2_node.set_text(Lvl2Columns.BUS, bus_names_str)
+			lvl2_node.set_range(Lvl2Columns.BUS, bus_names.find(setting.settings.bus))
+
+
+func _on_bus_renamed(_bus_index: int, old_name: StringName, new_name:StringName) -> void:
+	for i in _bus_filter.item_count:
+		var bus_name := _bus_filter.get_item_text(i)
+		if bus_name == old_name:
+			_bus_filter.set_item_text(i, new_name)
+		
+
+
