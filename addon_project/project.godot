@@ -37,6 +37,10 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/audio_node_wrangler/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 toggle_audio_node_wrangler_hud={
