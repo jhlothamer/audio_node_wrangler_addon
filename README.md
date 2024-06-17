@@ -6,6 +6,9 @@ With this Godot 4.1 add-on you can manage audio node volume and bus settings in 
 
 To install this add-on, look for it in the Godot asset library. Or you can download this repository and copy the addons/audio_node_wrangler folder to your project.
 
+## Demo
+While the repository contains a demo, you must clone it in order to get those files.  This is due to the addition of a .gitattributes file that makes it so only the addons folder is included in the downloaded zip file. This is to make installing from the asset library cleaner.  You can read more about this at https://docs.godotengine.org/en/stable/community/asset_library/submitting_to_assetlib.html#introduction .
+
 ## How To Use
 
 The audio node wrangler consists of a main screen UI and an in-game hud.
@@ -50,5 +53,5 @@ This Godot add-on demo uses these sounds from freesound.org:
 - "Referee whistle sound.wav" by Rosa-Orenes256 ( http://freesound.org/s/538422/ ) licensed under CC0
 
 
-
-
+## <img src="readme_images/bmc-logo-yellow-64.png" /> Support This and Other Free Tools
+If you would like to support my development work to maintain this and other such projects you can do so at https://www.buymeacoffee.com/jlothamer.
