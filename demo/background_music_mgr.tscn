@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bt1is513rqdou"]
 
-[ext_resource type="AudioStream" uid="uid://dths0yrpckvh" path="res://addons/audio_node_wrangler/demo/assets/music/220060__portwain__quiz-game-music-loop-bpm-90.ogg" id="1_omabe"]
+[ext_resource type="AudioStream" uid="uid://dths0yrpckvh" path="res://demo/assets/music/220060__portwain__quiz-game-music-loop-bpm-90.ogg" id="1_omabe"]
 
 [node name="BackgroundMusicMgr" type="Node"]
 

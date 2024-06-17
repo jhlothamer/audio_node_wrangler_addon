@@ -76,12 +76,6 @@ text = "Audio Node Wrangler"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RunDemoBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Runs demo project so you can see how things work in a live \"game\""
-text = "Run Demo"
-
 [node name="ScanProjectBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
 layout_mode = 2
 tooltip_text = "Scan project for audio stream nodes - keeps any setting changes"
@@ -226,7 +220,6 @@ size = Vector2i(800, 480)
 dialog_text = "Please close the following scenes to continue with applying sound changes."
 dialog_autowrap = true
 
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/RunDemoBtn" to="." method="_on_run_demo_btn_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/ScanProjectBtn" to="." method="_on_scan_project_btn_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/ResetSettingsBtn" to="." method="_on_reset_settings_btn_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/ApplySettingsBtn" to="." method="_on_apply_settings_btn_pressed"]
