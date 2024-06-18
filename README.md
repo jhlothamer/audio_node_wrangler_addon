@@ -24,7 +24,6 @@ When first added, the add-on will show no audio node data in the list that takes
 
 The buttons in the UI do the following:
 
-- Run Demo - runs an included demo where you can experiment with the in-game HUD.
 - Scan Project - scans all scene files (.tscn) for audio nodes and updates the add-on data file with their settings. This operation DOES NOT overwrite any bus or volume settings that have been modified.
 - Reset All - scans project files like the Scan Project button, but ALL settings are reset.
 - Apply - Modifies any project file with changed settings. Note that an attempt to NOT update files with changes not committed to git are made. You can turn this check off. However, it is recommended that all changes be committed before applying audio node wrangler settings.
