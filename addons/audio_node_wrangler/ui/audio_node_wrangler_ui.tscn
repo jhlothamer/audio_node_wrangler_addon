@@ -32,12 +32,12 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="SoundMgrUI" type="Control"]
+[node name="AudioNodeWranglerUI" type="Control"]
+custom_minimum_size = Vector2(880, 400)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -64,17 +64,15 @@ theme_override_constants/separation = 10
 
 [node name="TopHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 20
+alignment = 2
 
 [node name="AudioNodeWranglerLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Audio Node Wrangler"
-
-[node name="Spacer1" type="Control" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
-layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Audio Node Wrangler"
 
 [node name="ScanProjectBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
 layout_mode = 2

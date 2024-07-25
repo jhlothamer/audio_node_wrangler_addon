@@ -8,6 +8,6 @@ process_mode = 3
 layer = 128
 script = ExtResource("1_32jb0")
 
-[node name="SoundMgrUi" parent="." instance=ExtResource("2_gpym0")]
+[node name="AudioNodeWranglerUI" parent="." instance=ExtResource("2_gpym0")]
 
-[connection signal="closed_pressed" from="SoundMgrUi" to="." method="_on_sound_mgr_ui_closed_pressed"]
+[connection signal="closed_pressed" from="AudioNodeWranglerUI" to="." method="_on_audio_node_wrangler_ui_closed_pressed"]

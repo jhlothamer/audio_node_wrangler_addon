@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 
-@onready var _ui:Control = $SoundMgrUi
+@onready var _ui:Control = $AudioNodeWranglerUI
 
 
 # if tree already paused when ui shown, keep paused after ui dismissed
@@ -25,6 +25,6 @@ func _input(event: InputEvent) -> void:
 			get_tree().paused = _prev_tree_paused
 
 
-func _on_sound_mgr_ui_closed_pressed() -> void:
+func _on_audio_node_wrangler_ui_closed_pressed() -> void:
 	_ui.visible = false
 	get_tree().paused = _prev_tree_paused
