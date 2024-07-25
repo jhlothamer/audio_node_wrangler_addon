@@ -10,7 +10,6 @@ const ICON_UNDO = preload("res://addons/audio_node_wrangler/ui/UndoRedo.svg")
 
 enum TreeButtons {
 	PLAY,
-	#STOP,
 	UNDO_BUS,
 	UNDO_VOLUME_DB,
 }
@@ -18,7 +17,6 @@ enum TreeButtons {
 enum Lvl2Columns {
 	ID,
 	PLAY,
-	#STOP,
 	BUS,
 	BUS_ORIG,
 	VOLUME_DB,
@@ -29,9 +27,7 @@ enum Lvl2Columns {
 const LVL2_COL_TITLES = {
 	Lvl2Columns.BUS: "Bus",
 	Lvl2Columns.BUS_ORIG: "",
-#	Lvl2Columns.VOLUME_DB: "Volume Db",
 	Lvl2Columns.VOLUME_DB_ORIG: "",
-#	Lvl2Columns.ACTIVE_INSTANCES: "Instanced?",
 }
 
 
@@ -135,10 +131,6 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 			set_column_expand(Lvl2Columns.PLAY, false)
 			lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "Play %s" % setting.audio_stream_path.get_file())
 
-			#lvl2_node.add_button(Lvl2Columns.STOP, ICON_STOP, TreeButtons.STOP)
-			#set_column_expand(Lvl2Columns.STOP, false)
-			#set_column_expand(Lvl2Columns.STOP, false)
-
 			lvl2_node.set_cell_mode(Lvl2Columns.BUS, TreeItem.CELL_MODE_RANGE)
 			lvl2_node.set_editable(Lvl2Columns.BUS, true)
 			lvl2_node.set_text(Lvl2Columns.BUS, bus_names_str)
@@ -172,13 +164,21 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 func _on_tree_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button_index: int) -> void:
 	match id:
 		TreeButtons.PLAY:
-			_play_audio(item)
-		#TreeButtons.STOP:
-			#_stop_audio(item)
+			_play_stop_audio(item)
 		TreeButtons.UNDO_BUS:
 			_undo_bus(item)
 		TreeButtons.UNDO_VOLUME_DB:
 			_undo_volume_db(item)
+
+
+func _play_stop_audio(item:TreeItem) -> void:
+	var audio_stream_player = item.get_metadata(Lvl2Columns.PLAY)
+	if audio_stream_player and audio_stream_player.playing:
+		audio_stream_player.stop()
+		item.set_button(Lvl2Columns.PLAY, TreeButtons.PLAY, ICON_PLAY)
+		return
+	_play_audio(item)
+	item.set_button(Lvl2Columns.PLAY, TreeButtons.PLAY, ICON_STOP)
 
 
 func _play_audio(item:TreeItem) -> void:
@@ -189,15 +189,15 @@ func _play_audio(item:TreeItem) -> void:
 	item.set_metadata(Lvl2Columns.PLAY, audio_stream_player)
 	if new_player:
 		add_child(audio_stream_player)
+		audio_stream_player.connect("finished", _on_audio_stream_finished.bind(item))
 	audio_stream_player.play()
-	
 
 
-func _stop_audio(item:TreeItem) -> void:
+func _on_audio_stream_finished(item:TreeItem) -> void:
 	var audio_stream_player = item.get_metadata(Lvl2Columns.PLAY)
-	if !audio_stream_player:
-		return
-	audio_stream_player.stop()
+	if audio_stream_player:
+		audio_stream_player.stop()
+		item.set_button(Lvl2Columns.PLAY, TreeButtons.PLAY, ICON_PLAY)
 
 
 func stop_all_audio() -> void:
@@ -207,6 +207,7 @@ func stop_all_audio() -> void:
 			var audio_stream_player = lvl2_node.get_metadata(Lvl2Columns.PLAY)
 			if audio_stream_player:
 				audio_stream_player.stop()
+			lvl2_node.set_button(Lvl2Columns.PLAY, TreeButtons.PLAY, ICON_PLAY)
 
 
 func _undo_bus(item:TreeItem) -> void:

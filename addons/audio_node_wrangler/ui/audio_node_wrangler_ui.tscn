@@ -181,7 +181,7 @@ tooltip_text = "Filter by audio bus"
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Only show entries with instances of audio nodes"
-text = "Instances"
+text = "Instanced"
 
 [node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VBoxContainer"]
 visible = false

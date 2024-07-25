@@ -5,9 +5,6 @@ signal closed_pressed()
 signal _confirm_dismissed(result)
 
 
-const ICON_PLAY = preload("res://addons/audio_node_wrangler/ui/Play.svg")
-const ICON_STOP = preload("res://addons/audio_node_wrangler/ui/Stop.svg")
-const ICON_UNDO = preload("res://addons/audio_node_wrangler/ui/UndoRedo.svg")
 const NO_NAG_ACTION = "no_nag"
 const SOUND_MGR_UI_DATA_PATH = "user://sound_manager_ui.json"
 const UI_PANEL_STYLEBOX = preload("res://addons/audio_node_wrangler/ui/ui_panel_stylebox.tres")
