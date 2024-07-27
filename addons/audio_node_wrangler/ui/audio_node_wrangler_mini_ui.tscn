@@ -1,10 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://6e2j2mid06o8"]
+[gd_scene load_steps=8 format=3 uid="uid://6e2j2mid06o8"]
 
 [ext_resource type="Script" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_mini_ui.gd" id="1_8bylf"]
 [ext_resource type="Texture2D" uid="uid://bdd5plkcole64" path="res://addons/audio_node_wrangler/ui/Search.svg" id="2_a3bn8"]
 [ext_resource type="StyleBox" uid="uid://dg6eaq2rthlrx" path="res://addons/audio_node_wrangler/ui/ui_panel_stylebox.tres" id="2_hh24e"]
 [ext_resource type="PackedScene" uid="uid://ck0tv0ajigvmt" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_data_tree.tscn" id="2_o4e20"]
 [ext_resource type="Texture2D" uid="uid://ba7sxdkauaqob" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_icon.svg" id="2_v6ouf"]
+
+[sub_resource type="Theme" id="Theme_se5jc"]
+Button/font_sizes/font_size = 10
+Label/font_sizes/font_size = 10
+LineEdit/font_sizes/font_size = 10
+MenuBar/font_sizes/font_size = 10
+PopupMenu/font_sizes/font_size = 10
+Tree/font_sizes/font_size = 8
+Tree/font_sizes/title_button_font_size = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xc1o"]
 draw_center = false
@@ -24,6 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_se5jc")
 script = ExtResource("1_8bylf")
 
 [node name="Panel" type="PanelContainer" parent="."]
@@ -100,9 +110,10 @@ right_icon = ExtResource("2_a3bn8")
 
 [node name="BusFilterMenuBtn" type="MenuButton" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(75, 0)
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "Bus"
+flat = false
 
 [node name="ActiveInstancesChk" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
