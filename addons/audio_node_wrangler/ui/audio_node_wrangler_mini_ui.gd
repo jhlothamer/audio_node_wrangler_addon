@@ -69,6 +69,10 @@ func _filter_list() -> void:
 	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _get_bus_filter())
 
 
+func _about_to_hide() -> void:
+	AudioNodeWranglerMgr.save_data()
+
+
 func _on_data_changed() -> void:
 	_refresh_list()
 
