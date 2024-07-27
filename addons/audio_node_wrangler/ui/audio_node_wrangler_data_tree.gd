@@ -245,7 +245,7 @@ func _on_tree_gui_input(event: InputEvent) -> void:
 	if !_row_outline:
 		_row_outline = ReferenceRect.new()
 		_row_outline.editor_only = false
-		_row_outline.mouse_filter = Control.MOUSE_FILTER_PASS
+		_row_outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_row_outline.border_color = row_outline_color
 		_row_outline.border_width = row_outline_width
 		add_child(_row_outline)

@@ -61,7 +61,7 @@ func _ready() -> void:
 	
 	if OK != AudioNodeWranglerMgr.data_changed.connect(_on_data_changed):
 		printerr("AudioNodeWranglerUI: could not connect to AudioNodeWranglerMgr.data_changed")
-	call_deferred("_refresh_list", true)
+	_refresh_list.call_deferred(true)
 	_confirm_ok_no_nag_btn = _confirm_dlg.add_button("OK (don't show again)", true, NO_NAG_ACTION)
 	
 	if running_in_editor:
@@ -74,22 +74,12 @@ func _ready() -> void:
 
 
 func _refresh_list(called_from_ready:bool = false) -> void:
+	var bus_names := AudioWranglerUtil.get_bus_names()
+	_refresh_bus_filter(bus_names)
 	var bus_filter := ""
 	if _bus_filter.selected > -1:
 		bus_filter = _bus_filter.get_item_text(_bus_filter.selected)
 	_data_tree.refresh_list(_group_by_res_rdo.button_pressed, _filter_edit.text.to_lower(), _active_instances_chk.button_pressed, bus_filter, called_from_ready)
-
-
-func _get_bus_names() -> Array[String]:
-	var busses:Array[String] = []
-	
-	for i in AudioServer.bus_count:
-		var bus := AudioServer.get_bus_name(i)
-		busses.append(bus)
-	
-	busses.sort()
-	
-	return busses
 
 
 func _on_scan_project_btn_pressed() -> void:
@@ -204,7 +194,7 @@ func _about_to_hide() -> void:
 
 
 func _on_bus_layout_changed() -> void:
-	var bus_names := _get_bus_names()
+	var bus_names := AudioWranglerUtil.get_bus_names()
 	_refresh_bus_filter(bus_names)
 
 

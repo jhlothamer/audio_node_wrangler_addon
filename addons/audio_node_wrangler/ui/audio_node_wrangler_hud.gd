@@ -1,6 +1,9 @@
 extends CanvasLayer
 
 
+const MIN_FULL_UI_SIZE = Vector2(880,400)
+
+
 @onready var _ui:Control = $AudioNodeWranglerUI
 
 
@@ -14,6 +17,11 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action(AudioNodeWranglerConsts.AUDIO_NODE_WRANGLER_TOGGLE_HUD_ACTION_NAME) and event.is_pressed():
+		var current_screen_size := _ui.get_viewport_rect().size
+		if current_screen_size.x < MIN_FULL_UI_SIZE.x or current_screen_size.y < MIN_FULL_UI_SIZE.y:
+			print("too small to show full size ui")
+			return
+		
 		if !_ui.visible:
 			_ui._refresh_list()
 			_ui.visible = true
