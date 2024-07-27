@@ -220,7 +220,10 @@ func _process_added_audio_node(node:Node) -> void:
 	if !_audio_node_instances.has(id):
 		_audio_node_instances[id] = []
 	_audio_node_instances[id].append(node)
-	node.tree_exiting.connect(_on_audio_node_tree_exiting.bind(node))
+	
+	var bound_callback := _on_audio_node_tree_exiting.bind(node)
+	if !node.tree_exiting.is_connected(bound_callback):
+		node.tree_exiting.connect(bound_callback)
 
 
 func _on_audio_node_tree_exiting(node: Node) -> void:
