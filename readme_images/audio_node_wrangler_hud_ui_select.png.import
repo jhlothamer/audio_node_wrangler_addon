@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b031lxbygmarr"
-path="res://.godot/imported/audio_node_wrangler_hud_ui.png-56f95cc78d2fbd82c06e1884996949c6.ctex"
+uid="uid://psbjtryq3jxa"
+path="res://.godot/imported/audio_node_wrangler_hud_ui_select.png-98a6d67239558286ff26b815039da599.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/audio_node_wrangler/readme_images/audio_node_wrangler_hud_ui.png"
-dest_files=["res://.godot/imported/audio_node_wrangler_hud_ui.png-56f95cc78d2fbd82c06e1884996949c6.ctex"]
+source_file="res://readme_images/audio_node_wrangler_hud_ui_select.png"
+dest_files=["res://.godot/imported/audio_node_wrangler_hud_ui_select.png-98a6d67239558286ff26b815039da599.ctex"]
 
 [params]
 
