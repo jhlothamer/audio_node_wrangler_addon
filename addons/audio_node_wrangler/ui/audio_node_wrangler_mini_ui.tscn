@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=3 uid="uid://6e2j2mid06o8"]
+
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_mini_ui.gd" id="1_8bylf"]
+[ext_resource type="Texture2D" uid="uid://bdd5plkcole64" path="res://addons/audio_node_wrangler/ui/Search.svg" id="2_a3bn8"]
+[ext_resource type="StyleBox" uid="uid://dg6eaq2rthlrx" path="res://addons/audio_node_wrangler/ui/ui_panel_stylebox.tres" id="2_hh24e"]
+[ext_resource type="PackedScene" uid="uid://ck0tv0ajigvmt" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_data_tree.tscn" id="2_o4e20"]
+[ext_resource type="Texture2D" uid="uid://ba7sxdkauaqob" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_icon.svg" id="2_v6ouf"]
+
+[sub_resource type="Theme" id="Theme_se5jc"]
+Button/font_sizes/font_size = 10
+Label/font_sizes/font_size = 10
+LineEdit/font_sizes/font_size = 10
+MenuBar/font_sizes/font_size = 10
+PopupMenu/font_sizes/font_size = 10
+Tree/font_sizes/font_size = 8
+Tree/font_sizes/title_button_font_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xc1o"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="AudionNodeWranglerMiniUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_se5jc")
+script = ExtResource("1_8bylf")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_hh24e")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="TopHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IconTextureRect" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
+layout_mode = 2
+tooltip_text = "Audio Node Wrangler"
+texture = ExtResource("2_v6ouf")
+stretch_mode = 3
+
+[node name="MenuBar" type="MenuBar" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
+layout_mode = 2
+
+[node name="File" type="PopupMenu" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/MenuBar"]
+item_count = 3
+item_0/text = "Scan Project"
+item_0/id = 0
+item_1/text = "Reset All"
+item_1/id = 1
+item_2/text = "Show Data File"
+item_2/id = 2
+
+[node name="Group By" type="PopupMenu" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/MenuBar"]
+unique_name_in_owner = true
+item_count = 2
+item_0/text = "Audio Resource"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Scene"
+item_1/checkable = 2
+item_1/id = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8xc1o")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Filter:"
+
+[node name="FilterLineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter Audio Info Tree"
+clear_button_enabled = true
+right_icon = ExtResource("2_a3bn8")
+
+[node name="BusFilterMenuBtn" type="MenuButton" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "Bus"
+flat = false
+
+[node name="ActiveInstancesChk" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Instanced"
+
+[node name="CloseBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer/TopHBoxContainer"]
+layout_mode = 2
+text = "Close"
+
+[node name="AudioDataTree" parent="Panel/MarginContainer/VBoxContainer" instance=ExtResource("2_o4e20")]
+unique_name_in_owner = true
+layout_mode = 2
+volume_column_label = "Volume"
+active_instances_column_label = ""
+
+[connection signal="id_pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/MenuBar/File" to="." method="_on_file_id_pressed"]
+[connection signal="id_pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/MenuBar/Group By" to="." method="_on_group_by_id_pressed"]
+[connection signal="text_changed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer/FilterLineEdit" to="." method="_on_filter_line_edit_text_changed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/PanelContainer/HBoxContainer/ActiveInstancesChk" to="." method="_on_active_instances_chk_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/CloseBtn" to="." method="_on_close_btn_pressed"]

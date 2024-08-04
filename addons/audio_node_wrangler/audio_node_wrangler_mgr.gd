@@ -32,7 +32,7 @@ func _enter_tree() -> void:
 			printerr("AudioNodeWranglerMgr: could not connect to AudioServer.bus_renamed")
 	if OK != AudioServer.bus_layout_changed.connect(_on_bus_layout_changed):
 		printerr("AudioNodeWranglerMgr: could not connect to AudioServer.bus_layout_changed")
-	_cached_bus_names = _get_bus_names()
+	_cached_bus_names = AudioWranglerUtil.get_bus_names()
 
 
 func _ready() -> void:
@@ -47,19 +47,6 @@ func _ready() -> void:
 	add_child(file_monitor)
 	if OK != file_monitor.file_modified.connect(_on_data_file_modified):
 		printerr("AudioNodeWranglerMgr: could not connect to file monitor signal")
-
-
-func _get_bus_names() -> Array[String]:
-	var busses:Array[String] = []
-	
-	for i in AudioServer.bus_count:
-		var bus := AudioServer.get_bus_name(i)
-		busses.append(bus)
-	
-	busses.sort()
-	
-	return busses
-
 
 
 func scan_project(reset: bool = false) -> void:
@@ -233,7 +220,10 @@ func _process_added_audio_node(node:Node) -> void:
 	if !_audio_node_instances.has(id):
 		_audio_node_instances[id] = []
 	_audio_node_instances[id].append(node)
-	node.tree_exiting.connect(_on_audio_node_tree_exiting.bind(node))
+	
+	var bound_callback := _on_audio_node_tree_exiting.bind(node)
+	if !node.tree_exiting.is_connected(bound_callback):
+		node.tree_exiting.connect(bound_callback)
 
 
 func _on_audio_node_tree_exiting(node: Node) -> void:
@@ -383,8 +373,7 @@ func _array_missing(a:Array, b:Array) -> String:
 
 
 func _on_bus_layout_changed() -> void:
-	print("AudioNodeWranglerMgr: bus layout changed")
-	var current_bus_names := _get_bus_names()
+	var current_bus_names := AudioWranglerUtil.get_bus_names()
 
 	var old_name := _array_missing(_cached_bus_names, current_bus_names)
 	var new_name := _array_missing(current_bus_names, _cached_bus_names)

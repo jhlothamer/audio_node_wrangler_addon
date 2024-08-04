@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck0tv0ajigvmt"]
+
+[ext_resource type="Script" path="res://addons/audio_node_wrangler/ui/audio_node_wrangler_data_tree.gd" id="1_muxmk"]
+
+[node name="AudioDataTree" type="Tree"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+columns = 7
+column_titles_visible = true
+hide_root = true
+script = ExtResource("1_muxmk")
+row_outline_color = Color(0, 0.635294, 0.996078, 1)
+
+[connection signal="button_clicked" from="." to="." method="_on_tree_button_clicked"]
+[connection signal="gui_input" from="." to="." method="_on_tree_gui_input"]
+[connection signal="item_edited" from="." to="." method="_on_tree_item_edited"]
