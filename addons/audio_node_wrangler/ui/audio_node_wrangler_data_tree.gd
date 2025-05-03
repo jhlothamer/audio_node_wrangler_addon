@@ -108,7 +108,8 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 		set_column_title(col_id, LVL2_COL_TITLES[col_id])
 	
 	set_column_title(Lvl2Columns.VOLUME_DB, volume_column_label)
-	set_column_title(Lvl2Columns.ACTIVE_INSTANCES, active_instances_column_label)
+	if !Engine.is_editor_hint():
+		set_column_title(Lvl2Columns.ACTIVE_INSTANCES, active_instances_column_label)
 	
 	var root = create_item()
 	var keys:Array = settings_by_res_path.keys()
