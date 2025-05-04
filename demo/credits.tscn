@@ -62,13 +62,15 @@ theme_override_font_sizes/font_size = 48
 text = "Back"
 flat = true
 script = ExtResource("2_3mabw")
-hover_sound_node = NodePath("../../../../ButtonHoverSound")
-pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+hover_sound_node = NodePath("../../../../Sounds/ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../Sounds/ButtonPressedSound")
 
-[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_c64lq")
 
-[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("4_2k5yd")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
