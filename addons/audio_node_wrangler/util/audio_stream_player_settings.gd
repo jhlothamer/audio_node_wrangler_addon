@@ -161,4 +161,13 @@ func bus_changed() -> bool:
 
 
 func can_play() -> bool:
-	return !audio_stream_path.is_empty()
+	return !audio_stream_path.is_empty() and !audio_stream_path.contains("::")
+
+
+func get_cant_play_reason() -> String:
+	if audio_stream_path.is_empty():
+		return "No stream set for node"
+	if audio_stream_path.contains("::"):
+		return "Stream is an embedded resource"
+	
+	return ""

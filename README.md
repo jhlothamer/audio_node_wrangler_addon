@@ -72,13 +72,13 @@ Updating Mini UI's Theme<br>
 
 This Godot add-on demo uses these sounds from freesound.org:
 
-- "quiz game music loop BPM 90.wav" by portwain ( http://freesound.org/s/331880/ ) licensed under CC0
+- "quiz game music loop BPM 90.wav" by portwain ( http://freesound.org/s/220060/ ) licensed under CC0
 - "btn_hover_3.wav" by rayolf ( http://freesound.org/s/405158/ ) licensed under CC0
 - "Button_Click" by TheWilliamSounds ( http://freesound.org/s/686557/ ) licensed under CC0
 - "Cheers" by keerotic ( http://freesound.org/s/575563/ ) licensed under CC0
 - "awwwww.mp3" by WhisperPotato ( http://freesound.org/s/547589/ ) licensed under CC0
 - "Referee whistle sound.wav" by Rosa-Orenes256 ( http://freesound.org/s/538422/ ) licensed under CC0
-
+- "Rabbit Bop" by code_box (https://freesound.org/s/575759/) licensed under CC0
 
 ## <img src="readme_images/bmc-logo-yellow-64.png" /> Support This and Other Free Tools
 If you would like to support my development work to maintain this and other such projects you can do so at https://www.buymeacoffee.com/jlothamer.

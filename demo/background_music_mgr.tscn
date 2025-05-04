@@ -1,11 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://bt1is513rqdou"]
+[gd_scene load_steps=4 format=3 uid="uid://bt1is513rqdou"]
 
 [ext_resource type="AudioStream" uid="uid://dths0yrpckvh" path="res://demo/assets/music/220060__portwain__quiz-game-music-loop-bpm-90.ogg" id="1_omabe"]
+[ext_resource type="AudioStream" uid="uid://cp3ui8g01kmwl" path="res://demo/assets/music/575759__code_box__rabbit-bop.ogg" id="2_8hbq5"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0uo21"]
+streams_count = 2
+stream_0/stream = ExtResource("1_omabe")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_8hbq5")
+stream_1/weight = 1.0
 
 [node name="BackgroundMusicMgr" type="Node"]
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("1_omabe")
-volume_db = -24.0
+stream = SubResource("AudioStreamRandomizer_0uo21")
+volume_db = -12.0
 autoplay = true
