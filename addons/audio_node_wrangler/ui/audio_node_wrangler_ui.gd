@@ -31,6 +31,7 @@ enum ConfirmationDlgResult {
 @onready var _bus_filter:OptionButton = %BusFilterOptionBtn
 @onready var _title:Label = %AudioNodeWranglerLabel
 @onready var _panel:PanelContainer = $Panel
+@onready var _changes_filter:OptionButton = %ChangesFilterOptionBtn
 
 
 var editor_interface:EditorInterface
@@ -79,7 +80,7 @@ func _refresh_list(called_from_ready:bool = false) -> void:
 	var bus_filter := ""
 	if _bus_filter.selected > -1:
 		bus_filter = _bus_filter.get_item_text(_bus_filter.selected)
-	_data_tree.refresh_list(_group_by_res_rdo.button_pressed, _filter_edit.text.to_lower(), _active_instances_chk.button_pressed, bus_filter, called_from_ready)
+	_data_tree.refresh_list(_group_by_res_rdo.button_pressed, _filter_edit.text.to_lower(), _active_instances_chk.button_pressed, bus_filter, _changes_filter.selected, called_from_ready)
 
 
 func _on_scan_project_btn_pressed() -> void:
@@ -135,15 +136,15 @@ func _on_group_by_rdo_pressed() -> void:
 
 
 func _on_filter_line_edit_text_changed(_new_text: String) -> void:
-	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected))
+	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected), _changes_filter.selected)
 
 
 func _on_active_instances_chk_pressed() -> void:
-	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected))
+	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected), _changes_filter.selected)
 
 
 func _on_bus_filter_option_btn_item_selected(_index: int) -> void:
-	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected))
+	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected), _changes_filter.selected)
 
 
 func _refresh_bus_filter(bus_names:Array) -> void:
@@ -203,3 +204,7 @@ func _on_bus_renamed(_bus_index: int, old_name: StringName, new_name:StringName)
 		var bus_name := _bus_filter.get_item_text(i)
 		if bus_name == old_name:
 			_bus_filter.set_item_text(i, new_name)
+
+
+func _on_changes_filter_option_btn_item_selected(_index: int) -> void:
+	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _bus_filter.get_item_text(_bus_filter.selected), _changes_filter.selected)

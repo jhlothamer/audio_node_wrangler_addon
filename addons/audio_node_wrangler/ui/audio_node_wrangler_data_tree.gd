@@ -31,6 +31,13 @@ const LVL2_COL_TITLES = {
 }
 
 
+enum ChangesFilter {
+	Both,
+	ChangedOnly,
+	UnchangedOnly,
+}
+
+
 @export var row_outline_color := Color.RED
 @export var row_outline_width := 2
 @export var row_outline_offset := Vector2(5,4)
@@ -87,7 +94,7 @@ func _get_bus_names() -> Array[String]:
 	
 	return busses
 
-func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: bool, bus_filter:String, called_from_ready:bool = false) -> void:
+func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: bool, bus_filter:String, changes_filter:ChangesFilter, called_from_ready:bool = false) -> void:
 	if called_from_ready and get_root() != null:
 		return
 	_free_temp_audio_players()
@@ -163,7 +170,7 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 				lvl2_node.set_checked(Lvl2Columns.ACTIVE_INSTANCES, AudioNodeWranglerMgr.audio_node_has_instances(setting.id))
 				set_column_expand(Lvl2Columns.ACTIVE_INSTANCES, false)
 			
-	filter_list(filter_string, chk_instances, bus_filter)
+	filter_list(filter_string, chk_instances, bus_filter, changes_filter)
 
 
 func _on_tree_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button_index: int) -> void:
@@ -307,13 +314,11 @@ func _on_tree_item_edited() -> void:
 	AudioNodeWranglerMgr._apply_audio_setting_to_current_players(setting)
 
 
-func filter_list(filter_string:String, chk_instances: bool, bus_filter:String) -> void:
-	#var filter_string := _filter_edit.text.to_lower()
-	#var chk_instances = _active_instances_chk.visible && _active_instances_chk.button_pressed
-	#var bus_filter = _bus_filter.get_item_text(_bus_filter.selected)
+func filter_list(filter_string:String, chk_instances: bool, bus_filter:String, changes_filter: ChangesFilter) -> void:
 	var root := get_root()
 	if !root:
 		return
+	var show_changed := changes_filter == ChangesFilter.ChangedOnly
 	for lvl1_node in root.get_children():
 		var lvl2_node_visible := false
 		for lvl2_node in lvl1_node.get_children():
@@ -321,6 +326,8 @@ func filter_list(filter_string:String, chk_instances: bool, bus_filter:String) -
 			if chk_instances and !lvl2_node.is_checked(Lvl2Columns.ACTIVE_INSTANCES):
 				lvl2_node.visible = false
 			elif !bus_filter.is_empty() and setting.settings.bus != bus_filter:
+				lvl2_node.visible = false
+			elif changes_filter != ChangesFilter.Both and setting.has_changes() != show_changed:
 				lvl2_node.visible = false
 			elif setting.matches_filter(filter_string):
 				lvl2_node.visible = true

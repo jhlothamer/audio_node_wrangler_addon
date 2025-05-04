@@ -160,6 +160,10 @@ func bus_changed() -> bool:
 	return curr_bus != orig_bus
 
 
+func has_changes() -> bool:
+	return volume_db_changed() or bus_changed()
+
+
 func can_play() -> bool:
 	return !audio_stream_path.is_empty() and !audio_stream_path.contains("::")
 

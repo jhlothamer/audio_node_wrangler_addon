@@ -60,7 +60,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 0
 
 [node name="TopHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -106,23 +106,31 @@ size_flags_horizontal = 3
 theme_override_constants/h_separation = 40
 alignment = 1
 
-[node name="GroupByPanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="GroupByVBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="GroupByLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Group By:"
+vertical_alignment = 2
+
+[node name="GroupByPanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer"]
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q6375")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="GroupByHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer"]
+[node name="GroupByHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="GroupByLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer"]
-layout_mode = 2
-text = "Group By:"
-
-[node name="GroupByAudioResRdo" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer"]
+[node name="GroupByAudioResRdo" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Group entries by audio resource file"
@@ -130,32 +138,38 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_shc02")
 text = "Audio Resource"
 
-[node name="GroupBySceneRdo" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer"]
+[node name="GroupBySceneRdo" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Group entries by scene file"
 button_group = SubResource("ButtonGroup_shc02")
 text = "Scene"
 
-[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="FilterVBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="FilterLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Filter:"
+vertical_alignment = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g2gh5")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="FilterHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer"]
+[node name="FilterHBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="FilterLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
-layout_mode = 2
-text = "Filter:"
-
-[node name="FilterLineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+[node name="FilterLineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -166,20 +180,37 @@ right_icon = ExtResource("2_n3f52")
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="BusFilterLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+[node name="BusFilterLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
 layout_mode = 2
 text = "Bus"
 
-[node name="BusFilterOptionBtn" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+[node name="BusFilterOptionBtn" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Filter by audio bus"
 
-[node name="ActiveInstancesChk" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+[node name="ActiveInstancesChk" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Only show entries with instances of audio nodes"
 text = "Instanced"
+
+[node name="ChangesLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+layout_mode = 2
+text = "Changes"
+
+[node name="ChangesFilterOptionBtn" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Show both changed and unchanged, changed only, or or unchanged only settings"
+item_count = 3
+selected = 0
+popup/item_0/text = "Both"
+popup/item_0/id = 0
+popup/item_1/text = "Changed Only"
+popup/item_1/id = 1
+popup/item_2/text = "Unchanged Only"
+popup/item_2/id = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VBoxContainer"]
 visible = false
@@ -219,11 +250,12 @@ dialog_autowrap = true
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/ApplySettingsBtn" to="." method="_on_apply_settings_btn_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/ShowDataFileBtn" to="." method="_on_show_data_file_btn_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/TopHBoxContainer/CloseBtn" to="." method="_on_close_btn_pressed"]
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer/GroupByAudioResRdo" to="." method="_on_group_by_rdo_pressed"]
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer/GroupBySceneRdo" to="." method="_on_group_by_rdo_pressed"]
-[connection signal="text_changed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer/FilterLineEdit" to="." method="_on_filter_line_edit_text_changed"]
-[connection signal="item_selected" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer/BusFilterOptionBtn" to="." method="_on_bus_filter_option_btn_item_selected"]
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/PanelContainer/MarginContainer/FilterHBoxContainer/ActiveInstancesChk" to="." method="_on_active_instances_chk_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer/GroupByAudioResRdo" to="." method="_on_group_by_rdo_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/GroupByVBoxContainer/GroupByPanelContainer/MarginContainer/GroupByHBoxContainer/GroupBySceneRdo" to="." method="_on_group_by_rdo_pressed"]
+[connection signal="text_changed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer/FilterLineEdit" to="." method="_on_filter_line_edit_text_changed"]
+[connection signal="item_selected" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer/BusFilterOptionBtn" to="." method="_on_bus_filter_option_btn_item_selected"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer/ActiveInstancesChk" to="." method="_on_active_instances_chk_pressed"]
+[connection signal="item_selected" from="Panel/MarginContainer/VBoxContainer/HFlowContainer/FilterVBoxContainer/PanelContainer/MarginContainer/FilterHBoxContainer/ChangesFilterOptionBtn" to="." method="_on_changes_filter_option_btn_item_selected"]
 [connection signal="canceled" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
 [connection signal="custom_action" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_custom_action"]
