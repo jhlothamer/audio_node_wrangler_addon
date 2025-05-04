@@ -130,7 +130,11 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 
 			lvl2_node.add_button(Lvl2Columns.PLAY, ICON_PLAY, TreeButtons.PLAY)
 			set_column_expand(Lvl2Columns.PLAY, false)
-			lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "Play %s" % setting.audio_stream_path.get_file())
+			if setting.can_play():
+				lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "Play %s" % setting.audio_stream_path.get_file())
+			else:
+				lvl2_node.set_button_disabled(Lvl2Columns.PLAY, TreeButtons.PLAY, true)
+				lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "No stream set for node")
 
 			lvl2_node.set_cell_mode(Lvl2Columns.BUS, TreeItem.CELL_MODE_RANGE)
 			lvl2_node.set_editable(Lvl2Columns.BUS, true)

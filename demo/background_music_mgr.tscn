@@ -7,4 +7,5 @@
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("1_omabe")
+volume_db = -24.0
 autoplay = true

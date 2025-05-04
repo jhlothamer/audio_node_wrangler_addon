@@ -121,6 +121,9 @@ theme_override_font_sizes/font_size = 30
 text = "This demo is a simple quiz  game that contains sounds that you can manage with the Audio Node Wrangler.  Simply hit F1 to call up the Audio Node Wrangler Hud.  (Note that you cannot do so while a popup window is active.)  From the hud you can modify audio node volumes and change their bus.  Changes are saved when the hud is closed and will be reflected in the AudioNodeWrangler editor plugin."
 autowrap_mode = 2
 
+[node name="NoStreamTestSound" type="AudioStreamPlayer" parent="."]
+editor_description = "This player has no audio stream on purpose to test that the addon can handle this case."
+
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/CreditsBtn" to="." method="_on_credits_btn_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]

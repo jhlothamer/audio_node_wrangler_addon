@@ -158,3 +158,7 @@ func bus_changed() -> bool:
 		curr_bus = settings.bus
 
 	return curr_bus != orig_bus
+
+
+func can_play() -> bool:
+	return !audio_stream_path.is_empty()
