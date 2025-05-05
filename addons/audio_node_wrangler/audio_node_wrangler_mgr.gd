@@ -14,7 +14,7 @@ var _data_file_mod_time := -1
 var _audio_node_instances := {}
 #audio nodes added before data is loaded add to this list - to be added to _audio_node_instances after data loaded
 var _audio_nodes_added_early := []
-var _editor:EditorInterface
+var _editor
 var _cached_bus_names := []
 
 
@@ -39,7 +39,7 @@ func _ready() -> void:
 	load_data()
 	_process_audio_nodes_added_early()
 	# add in-game hud for sound mgr (and only in for debug builds)
-	if !Engine.is_editor_hint() and OS.has_feature("debug"):
+	if !Engine.is_editor_hint() and OS.has_feature("editor"):
 		var hud = _SOUND_MGR_HUD_SCENE.instantiate()
 		get_parent().call_deferred("add_child", hud)
 	var file_monitor := FileMonitor.new()

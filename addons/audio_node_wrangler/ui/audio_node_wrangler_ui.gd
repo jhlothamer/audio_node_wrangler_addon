@@ -34,9 +34,6 @@ enum ConfirmationDlgResult {
 @onready var _changes_filter:OptionButton = %ChangesFilterOptionBtn
 
 
-var editor_interface:EditorInterface
-
-
 #flag indicating if the ui scene is being edited or not
 var _is_active := false
 var _confirm_ok_no_nag_btn:Button
