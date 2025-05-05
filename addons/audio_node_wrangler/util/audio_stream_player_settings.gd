@@ -17,10 +17,10 @@ var _settings_as_loaded := {}
 var _filter_match_string := ""
 
 
-func read_from_scene_state(path:String, ss:SceneState, node_idx: int) -> void:
-	scene_path = path
+func read_from_scene_state(path:String, ss:SceneState, node_idx: int, project_path:String) -> void:
+	scene_path = path if project_path.is_empty() else project_path
 	node_path = str(ss.get_node_path(node_idx))
-	id = "%s::%s" % [path, node_path]
+	id = "%s::%s" % [scene_path, node_path]
 	node_type = ss.get_node_type(node_idx)
 	settings = {}
 	for i in ss.get_node_property_count(node_idx):
@@ -28,6 +28,8 @@ func read_from_scene_state(path:String, ss:SceneState, node_idx: int) -> void:
 		if prop_name == "stream":
 			var stream_value:AudioStream = ss.get_node_property_value(node_idx, i)
 			audio_stream_path = stream_value.resource_path
+			if !project_path.is_empty():
+				audio_stream_path = audio_stream_path.replace(path, project_path)
 		if !AUDIO_PLAYER_DEF_PROP_VALUES.has(prop_name):
 			continue
 		settings[prop_name] = ss.get_node_property_value(node_idx, i)
