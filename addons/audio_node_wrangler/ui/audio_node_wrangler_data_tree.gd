@@ -262,7 +262,9 @@ func _on_tree_gui_input(event: InputEvent) -> void:
 		_row_outline.border_width = row_outline_width
 		add_child(_row_outline)
 	var item_rect := get_item_area_rect(hover_item)
-	_row_outline.position = item_rect.position + row_outline_offset - get_scroll()
+	if !item_rect.has_point(calc_pos):
+		item_rect.position -= get_scroll()
+	_row_outline.position = item_rect.position + row_outline_offset
 	_row_outline.size = item_rect.size + row_outline_size_offset
 	_row_outline.visible = true
 	_prev_hover_item = hover_item
