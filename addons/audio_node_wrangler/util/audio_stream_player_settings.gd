@@ -1,10 +1,12 @@
 class_name AudioStreamPlayerSettings
 extends RefCounted
 
+const META_NAME_AUDIO_WRANGLER_ID := &"audio_wrangler_id"
 const AUDIO_PLAYER_DEF_PROP_VALUES = {
 	"bus": "Master",
 	"volume_db": 0.0,
 }
+
 
 var id := ""
 var scene_path := ""
@@ -55,9 +57,13 @@ func read_from_dictionary(d:Dictionary) -> void:
 
 
 static func get_id_for_audio_node(node: Node) -> String:
+	if node.has_meta(META_NAME_AUDIO_WRANGLER_ID):
+		return node.get_meta(&"audio_wrangler_id") as String
 	var temp := str(node.get_path())
 	var local_path = temp.replace(str(node.owner.get_path()), ".")
-	return "%s::%s" % [node.owner.scene_file_path, local_path]
+	var id := "%s::%s" % [node.owner.scene_file_path, local_path]
+	node.set_meta(META_NAME_AUDIO_WRANGLER_ID, id)
+	return id
 
 
 func read_from_node(n:Node) -> void:
