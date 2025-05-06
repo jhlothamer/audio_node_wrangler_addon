@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/575759__code_box__rabbit-bop.ogg-2de931d84732
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
