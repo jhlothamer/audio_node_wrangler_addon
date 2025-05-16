@@ -308,7 +308,6 @@ func _get_scenes_needing_update() -> Array:
 		if settings.needs_update_applied():
 			if !scenes_needing_update.has(settings.scene_path):
 				scenes_needing_update.append(settings.scene_path)
-			break
 	return scenes_needing_update
 
 
