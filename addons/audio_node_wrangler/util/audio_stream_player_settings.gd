@@ -61,9 +61,9 @@ static func get_id_for_audio_node(node: Node) -> String:
 		return node.get_meta(&"audio_wrangler_id") as String
 	var temp := str(node.get_path())
 	var local_path = temp.replace(str(node.owner.get_path()), ".")
-	var id := "%s::%s" % [node.owner.scene_file_path, local_path]
-	node.set_meta(META_NAME_AUDIO_WRANGLER_ID, id)
-	return id
+	var audio_node_id := "%s::%s" % [node.owner.scene_file_path, local_path]
+	node.set_meta(META_NAME_AUDIO_WRANGLER_ID, audio_node_id)
+	return audio_node_id
 
 
 func read_from_node(n:Node) -> void:
