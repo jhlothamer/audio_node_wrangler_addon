@@ -36,10 +36,10 @@ const INCORRECT_ANSWER_RESPONSES := [
 @onready var _answer_parent:VBoxContainer = $MarginContainer/VBoxContainer/AnswersVBoxContainer
 @onready var _answer_chk:CheckBox = $MarginContainer/VBoxContainer/AnswersVBoxContainer/AnswerCheckBox
 @onready var _accept_dlg:AcceptDialog = $AcceptDialog
-@onready var _cheers_sound:AudioStreamPlayer = $CheersSound
-@onready var _awwww_sound:AudioStreamPlayer = $AwwwSound
-@onready var _no_answer_sound:AudioStreamPlayer = $NoAnswerSound
-@onready var _button_pressed_sound:AudioStreamPlayer = $ButtonPressedSound
+@onready var _cheers_sound:AudioStreamPlayer = %CheersSound
+@onready var _awwww_sound:AudioStreamPlayer = %AwwwSound
+@onready var _no_answer_sound:AudioStreamPlayer = %NoAnswerSound
+@onready var _button_pressed_sound:AudioStreamPlayer = %ButtonPressedSound
 
 
 var _question: Question

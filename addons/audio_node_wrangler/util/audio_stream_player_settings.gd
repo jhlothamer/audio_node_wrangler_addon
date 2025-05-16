@@ -1,10 +1,12 @@
 class_name AudioStreamPlayerSettings
 extends RefCounted
 
+const META_NAME_AUDIO_WRANGLER_ID := &"audio_wrangler_id"
 const AUDIO_PLAYER_DEF_PROP_VALUES = {
 	"bus": "Master",
 	"volume_db": 0.0,
 }
+
 
 var id := ""
 var scene_path := ""
@@ -17,10 +19,10 @@ var _settings_as_loaded := {}
 var _filter_match_string := ""
 
 
-func read_from_scene_state(path:String, ss:SceneState, node_idx: int) -> void:
-	scene_path = path
+func read_from_scene_state(path:String, ss:SceneState, node_idx: int, project_path:String) -> void:
+	scene_path = path if project_path.is_empty() else project_path
 	node_path = str(ss.get_node_path(node_idx))
-	id = "%s::%s" % [path, node_path]
+	id = "%s::%s" % [scene_path, node_path]
 	node_type = ss.get_node_type(node_idx)
 	settings = {}
 	for i in ss.get_node_property_count(node_idx):
@@ -28,6 +30,8 @@ func read_from_scene_state(path:String, ss:SceneState, node_idx: int) -> void:
 		if prop_name == "stream":
 			var stream_value:AudioStream = ss.get_node_property_value(node_idx, i)
 			audio_stream_path = stream_value.resource_path
+			if !project_path.is_empty():
+				audio_stream_path = audio_stream_path.replace(path, project_path)
 		if !AUDIO_PLAYER_DEF_PROP_VALUES.has(prop_name):
 			continue
 		settings[prop_name] = ss.get_node_property_value(node_idx, i)
@@ -53,15 +57,20 @@ func read_from_dictionary(d:Dictionary) -> void:
 
 
 static func get_id_for_audio_node(node: Node) -> String:
+	if node.has_meta(META_NAME_AUDIO_WRANGLER_ID):
+		return node.get_meta(&"audio_wrangler_id") as String
 	var temp := str(node.get_path())
 	var local_path = temp.replace(str(node.owner.get_path()), ".")
-	return "%s::%s" % [node.owner.scene_file_path, local_path]
+	var audio_node_id := "%s::%s" % [node.owner.scene_file_path, local_path]
+	node.set_meta(META_NAME_AUDIO_WRANGLER_ID, audio_node_id)
+	return audio_node_id
 
 
 func read_from_node(n:Node) -> void:
 	id = AudioStreamPlayerSettings.get_id_for_audio_node(n)
-	var stream:AudioStream = n.stream
-	audio_stream_path = stream.resource_path
+	var stream = n.stream as AudioStream
+	if stream:
+		audio_stream_path = stream.resource_path
 	node_type = n.get_class()
 	settings = {}
 	for prop_key in AUDIO_PLAYER_DEF_PROP_VALUES.keys():
@@ -158,3 +167,20 @@ func bus_changed() -> bool:
 		curr_bus = settings.bus
 
 	return curr_bus != orig_bus
+
+
+func has_changes() -> bool:
+	return volume_db_changed() or bus_changed()
+
+
+func can_play() -> bool:
+	return !audio_stream_path.is_empty() and !audio_stream_path.contains("::")
+
+
+func get_cant_play_reason() -> String:
+	if audio_stream_path.is_empty():
+		return "No stream set for node"
+	if audio_stream_path.contains("::"):
+		return "Stream is an embedded resource"
+	
+	return ""

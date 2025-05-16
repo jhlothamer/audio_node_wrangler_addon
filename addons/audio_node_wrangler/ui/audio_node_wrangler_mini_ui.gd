@@ -37,7 +37,7 @@ func _ready() -> void:
 
 func _refresh_list(called_from_ready:bool = false) -> void:
 	var bus_filter := _get_bus_filter()
-	_data_tree.refresh_list(_group_by_resource, _filter_edit.text.to_lower(), _active_instances_chk.button_pressed, bus_filter, called_from_ready)
+	_data_tree.refresh_list(_group_by_resource, _filter_edit.text.to_lower(), _active_instances_chk.button_pressed, bus_filter, AudioNodeWranglerDataTree.ChangesFilter.Both, called_from_ready)
 
 
 func _populate_bus_filter() -> void:
@@ -66,7 +66,7 @@ func _on_bus_filter_popup_index_pressed(index:int) -> void:
 
 
 func _filter_list() -> void:
-	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _get_bus_filter())
+	_data_tree.filter_list(_filter_edit.text.to_lower(), _active_instances_chk.button_pressed, _get_bus_filter(), AudioNodeWranglerDataTree.ChangesFilter.Both)
 
 
 func _about_to_hide() -> void:
@@ -100,7 +100,7 @@ func _on_group_by_id_pressed(id: int) -> void:
 	_refresh_list()
 
 
-func _on_filter_line_edit_text_changed(new_text: String) -> void:
+func _on_filter_line_edit_text_changed(_new_text: String) -> void:
 	_filter_list()
 
 

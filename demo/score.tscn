@@ -61,13 +61,15 @@ theme_override_font_sizes/font_size = 48
 text = "Continue"
 flat = true
 script = ExtResource("3_11pel")
-hover_sound_node = NodePath("../../../../ButtonHoverSound")
-pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+hover_sound_node = NodePath("../../../../Sounds/ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../Sounds/ButtonPressedSound")
 
-[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("4_r0d10")
 
-[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("5_ptnd2")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]

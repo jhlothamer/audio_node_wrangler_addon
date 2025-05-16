@@ -31,6 +31,13 @@ const LVL2_COL_TITLES = {
 }
 
 
+enum ChangesFilter {
+	Both,
+	ChangedOnly,
+	UnchangedOnly,
+}
+
+
 @export var row_outline_color := Color.RED
 @export var row_outline_width := 2
 @export var row_outline_offset := Vector2(5,4)
@@ -87,7 +94,7 @@ func _get_bus_names() -> Array[String]:
 	
 	return busses
 
-func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: bool, bus_filter:String, called_from_ready:bool = false) -> void:
+func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: bool, bus_filter:String, changes_filter:ChangesFilter, called_from_ready:bool = false) -> void:
 	if called_from_ready and get_root() != null:
 		return
 	_free_temp_audio_players()
@@ -108,7 +115,8 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 		set_column_title(col_id, LVL2_COL_TITLES[col_id])
 	
 	set_column_title(Lvl2Columns.VOLUME_DB, volume_column_label)
-	set_column_title(Lvl2Columns.ACTIVE_INSTANCES, active_instances_column_label)
+	if !Engine.is_editor_hint():
+		set_column_title(Lvl2Columns.ACTIVE_INSTANCES, active_instances_column_label)
 	
 	var root = create_item()
 	var keys:Array = settings_by_res_path.keys()
@@ -129,7 +137,11 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 
 			lvl2_node.add_button(Lvl2Columns.PLAY, ICON_PLAY, TreeButtons.PLAY)
 			set_column_expand(Lvl2Columns.PLAY, false)
-			lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "Play %s" % setting.audio_stream_path.get_file())
+			if setting.can_play():
+				lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, "Play %s" % setting.audio_stream_path.get_file())
+			else:
+				lvl2_node.set_button_disabled(Lvl2Columns.PLAY, TreeButtons.PLAY, true)
+				lvl2_node.set_tooltip_text(Lvl2Columns.PLAY, setting.get_cant_play_reason())
 
 			lvl2_node.set_cell_mode(Lvl2Columns.BUS, TreeItem.CELL_MODE_RANGE)
 			lvl2_node.set_editable(Lvl2Columns.BUS, true)
@@ -158,7 +170,7 @@ func refresh_list(group_by_resource: bool, filter_string:String, chk_instances: 
 				lvl2_node.set_checked(Lvl2Columns.ACTIVE_INSTANCES, AudioNodeWranglerMgr.audio_node_has_instances(setting.id))
 				set_column_expand(Lvl2Columns.ACTIVE_INSTANCES, false)
 			
-	filter_list(filter_string, chk_instances, bus_filter)
+	filter_list(filter_string, chk_instances, bus_filter, changes_filter)
 
 
 func _on_tree_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button_index: int) -> void:
@@ -250,7 +262,9 @@ func _on_tree_gui_input(event: InputEvent) -> void:
 		_row_outline.border_width = row_outline_width
 		add_child(_row_outline)
 	var item_rect := get_item_area_rect(hover_item)
-	_row_outline.position = item_rect.position + row_outline_offset - get_scroll()
+	if !item_rect.has_point(calc_pos):
+		item_rect.position -= get_scroll()
+	_row_outline.position = item_rect.position + row_outline_offset
 	_row_outline.size = item_rect.size + row_outline_size_offset
 	_row_outline.visible = true
 	_prev_hover_item = hover_item
@@ -302,13 +316,11 @@ func _on_tree_item_edited() -> void:
 	AudioNodeWranglerMgr._apply_audio_setting_to_current_players(setting)
 
 
-func filter_list(filter_string:String, chk_instances: bool, bus_filter:String) -> void:
-	#var filter_string := _filter_edit.text.to_lower()
-	#var chk_instances = _active_instances_chk.visible && _active_instances_chk.button_pressed
-	#var bus_filter = _bus_filter.get_item_text(_bus_filter.selected)
+func filter_list(filter_string:String, chk_instances: bool, bus_filter:String, changes_filter: ChangesFilter) -> void:
 	var root := get_root()
 	if !root:
 		return
+	var show_changed := changes_filter == ChangesFilter.ChangedOnly
 	for lvl1_node in root.get_children():
 		var lvl2_node_visible := false
 		for lvl2_node in lvl1_node.get_children():
@@ -316,6 +328,8 @@ func filter_list(filter_string:String, chk_instances: bool, bus_filter:String) -
 			if chk_instances and !lvl2_node.is_checked(Lvl2Columns.ACTIVE_INSTANCES):
 				lvl2_node.visible = false
 			elif !bus_filter.is_empty() and setting.settings.bus != bus_filter:
+				lvl2_node.visible = false
+			elif changes_filter != ChangesFilter.Both and setting.has_changes() != show_changed:
 				lvl2_node.visible = false
 			elif setting.matches_filter(filter_string):
 				lvl2_node.visible = true

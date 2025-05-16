@@ -14,7 +14,7 @@ var _data_file_mod_time := -1
 var _audio_node_instances := {}
 #audio nodes added before data is loaded add to this list - to be added to _audio_node_instances after data loaded
 var _audio_nodes_added_early := []
-var _editor:EditorInterface
+var _editor
 var _cached_bus_names := []
 
 
@@ -177,8 +177,11 @@ func audio_node_has_instances(id: String) -> bool:
 
 func show_data_file() -> void:
 	save_data()
-	var global_path = ProjectSettings.globalize_path(DATA_FILE_PATH)
-	OS.shell_show_in_file_manager(global_path, false)
+	if OS.get_name() != "Web":
+		var global_path = ProjectSettings.globalize_path(DATA_FILE_PATH)
+		OS.shell_show_in_file_manager(global_path, false)
+	var file_bytes := FileAccess.get_file_as_bytes(DATA_FILE_PATH)
+	JavaScriptBridge.download_buffer(file_bytes, DATA_FILE_PATH.get_file(), "text/plain")
 
 
 func _ensure_data_folder() -> void:
@@ -212,7 +215,6 @@ func _process_added_audio_node(node:Node) -> void:
 		setting = AudioStreamPlayerSettings.new()
 		setting.read_from_node(node)
 		_data[setting.id] = setting
-		print("AudioNodeWranglerMgr: audio node not listed in settings has been added: id = '%s'" % id)
 	else:
 		setting = _data[id]
 	
@@ -230,6 +232,13 @@ func _on_audio_node_tree_exiting(node: Node) -> void:
 	var id := AudioStreamPlayerSettings.get_id_for_audio_node(node)
 	if _audio_node_instances.has(id):
 		_audio_node_instances[id].erase(node)
+
+
+func _get_remapped_scene_path(remap_file_path:String) -> String:
+	var cfg := ConfigFile.new()
+	cfg.load(remap_file_path)
+	var file_path = cfg.get_value("remap", "path")
+	return str(file_path)
 
 
 func _collect_aud_settings() -> Dictionary:
@@ -250,17 +259,19 @@ func _collect_aud_settings() -> Dictionary:
 				dirs.append(full_file_path)
 			else:
 				var ext := file_name.get_extension().to_lower()
-				if ext == "tscn" or ext == "scn":
+				if ext == "tscn":
 					_collect_aud_settings_scene(full_file_path, data)
-					#var audio_stream_player_settings = _process_scene_file(full_file_path)
-					#for aud_setting in audio_stream_player_settings:
-						#data[aud_setting.id] = aud_setting
+				if file_name.ends_with("tscn.remap"):
+					var exported_file_path = _get_remapped_scene_path(full_file_path)
+					var project_path := full_file_path.replace(".remap", "")
+					_collect_aud_settings_scene(exported_file_path, data, project_path)
 			file_name = dir.get_next()
+	
 	return data
 
 
-func _collect_aud_settings_scene(full_file_path: String, data: Dictionary) -> void:
-	var audio_stream_player_settings = _process_scene_file(full_file_path)
+func _collect_aud_settings_scene(full_file_path: String, data: Dictionary, project_path:String = "") -> void:
+	var audio_stream_player_settings = _process_scene_file(full_file_path, project_path)
 	for aud_setting in audio_stream_player_settings:
 		data[aud_setting.id] = aud_setting
 
@@ -277,7 +288,7 @@ func _refresh_scene_file_aud_settings(scene_path: String) -> void:
 	_collect_aud_settings_scene(scene_path, _data)
 
 
-func _process_scene_file(path: String) -> Array[AudioStreamPlayerSettings]:
+func _process_scene_file(path: String, project_path:String = "") -> Array[AudioStreamPlayerSettings]:
 	var audio_stream_player_settings:Array[AudioStreamPlayerSettings] = []
 	var ps:PackedScene = load(path)
 	var ss := ps.get_state()
@@ -285,7 +296,7 @@ func _process_scene_file(path: String) -> Array[AudioStreamPlayerSettings]:
 		var node_type := ss.get_node_type(i)
 		if node_type.begins_with("AudioStreamPlayer"):
 			var a := AudioStreamPlayerSettings.new()
-			a.read_from_scene_state(path, ss, i)
+			a.read_from_scene_state(path, ss, i, project_path)
 			audio_stream_player_settings.append(a)
 	return audio_stream_player_settings
 
@@ -296,7 +307,6 @@ func _get_scenes_needing_update() -> Array:
 		if settings.needs_update_applied():
 			if !scenes_needing_update.has(settings.scene_path):
 				scenes_needing_update.append(settings.scene_path)
-			break
 	return scenes_needing_update
 
 

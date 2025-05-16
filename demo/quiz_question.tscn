@@ -68,8 +68,8 @@ theme_override_font_sizes/font_size = 48
 text = "Continue"
 flat = true
 script = ExtResource("3_iemlf")
-hover_sound_node = NodePath("../../../../ButtonHoverSound")
-pressed_sound_node = NodePath("../../../../ButtonPressedSound")
+hover_sound_node = NodePath("../../../../Sounds/ButtonHoverSound")
+pressed_sound_node = NodePath("../../../../Sounds/ButtonPressedSound")
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 title = "Whoa there!"
@@ -77,19 +77,26 @@ initial_position = 1
 size = Vector2i(204, 100)
 dialog_text = "Please select an answer."
 
-[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ButtonHoverSound" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("4_ax3ax")
 
-[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="."]
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("5_ogl2t")
 
-[node name="CheersSound" type="AudioStreamPlayer" parent="."]
+[node name="CheersSound" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("6_5md5p")
 
-[node name="AwwwSound" type="AudioStreamPlayer" parent="."]
+[node name="AwwwSound" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("7_3sk5p")
 
-[node name="NoAnswerSound" type="AudioStreamPlayer" parent="."]
+[node name="NoAnswerSound" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("8_qbk5m")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]

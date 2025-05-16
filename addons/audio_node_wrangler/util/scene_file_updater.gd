@@ -36,8 +36,10 @@ func _get_node_line_path_and_type(line:String) -> Array[String]:
 		elif part.begins_with("parent="):
 			node_parent = _get_assigned_value(part)
 	if node_parent.is_empty():
-		return [node_name, node_type]
-	return ["%s/%s" % [node_parent, node_name], node_type]
+		return [".", node_type]
+	if node_parent == ".":
+		return ["%s/%s" % [node_parent, node_name], node_type]
+	return ["./%s/%s" % [node_parent, node_name], node_type]
 
 
 func _get_property_type(node_type:String, prop_name: String) -> int:
