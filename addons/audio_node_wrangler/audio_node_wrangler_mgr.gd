@@ -215,7 +215,6 @@ func _process_added_audio_node(node:Node) -> void:
 		setting = AudioStreamPlayerSettings.new()
 		setting.read_from_node(node)
 		_data[setting.id] = setting
-		print("AudioNodeWranglerMgr: audio node not listed in settings has been added: id = '%s'" % id)
 	else:
 		setting = _data[id]
 	
